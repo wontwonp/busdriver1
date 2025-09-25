@@ -122,7 +122,9 @@ class BusDriverApp {
             this.isDragging = true;
             this.dragOffset = 0;
             document.getElementById('calendarPages').classList.add('dragging');
+            // 텍스트 선택 방지
             e.preventDefault();
+            document.body.style.userSelect = 'none';
         });
 
         calendarWrapper.addEventListener('mousemove', (e) => {
@@ -140,6 +142,8 @@ class BusDriverApp {
             isMouseDown = false;
             this.isDragging = false;
             document.getElementById('calendarPages').classList.remove('dragging');
+            // 텍스트 선택 복원
+            document.body.style.userSelect = '';
             this.handleSwipeEnd();
         });
 
@@ -234,10 +238,9 @@ class BusDriverApp {
         const calendarPages = document.getElementById('calendarPages');
         const wrapper = document.querySelector('.calendar-wrapper');
         
-        // 현재 페이지 위치에서 드래그 오프셋만큼 이동
-        const baseTransform = -this.currentPageIndex * 33.333; // 33.333%씩 이동
-        const dragPercent = (this.dragOffset / wrapper.offsetWidth) * 33.333;
-        const totalTransform = baseTransform + dragPercent;
+        // 드래그 중에는 이전/다음 달이 보이도록 전체 범위에서 이동
+        const dragPercent = (this.dragOffset / wrapper.offsetWidth) * 100;
+        const totalTransform = -33.333 + dragPercent; // 중앙에서 시작해서 드래그만큼 이동
         
         calendarPages.style.transform = `translateX(${totalTransform}%)`;
     }
@@ -492,7 +495,9 @@ class BusDriverApp {
     // 공휴일 확인
     isHoliday(date) {
         const dateKey = this.getDateKey(date);
-        return this.holidays[dateKey] || null;
+        const year = date.getFullYear();
+        const yearHolidays = this.getKoreanHolidays(year);
+        return yearHolidays[dateKey] || null;
     }
 
     // 기록 모달 열기
