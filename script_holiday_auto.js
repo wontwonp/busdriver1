@@ -13,7 +13,7 @@ class BusDriverApp {
         // 터치 스와이프를 위한 변수들
         this.touchStartX = 0;
         this.touchEndX = 0;
-        this.minSwipeDistance = 30; // 최소 스와이프 거리 (더 민감하게)
+        this.minSwipeDistance = 80; // 최소 스와이프 거리 (세로 스크롤 고려하여 조정)
         this.isDragging = false;
         this.dragOffset = 0;
         this.currentPageIndex = 1; // 현재 페이지 인덱스 (0: 이전달, 1: 현재달, 2: 다음달)
@@ -105,21 +105,32 @@ class BusDriverApp {
         const calendarWrapper = document.querySelector('.calendar-wrapper');
         
         // 시작 이벤트 (터치 또는 마우스)
-        const handleStart = (clientX) => {
+        const handleStart = (clientX, clientY) => {
             this.touchStartX = clientX;
-            this.isDragging = true;
+            this.touchStartY = clientY;
+            this.isDragging = false; // 초기에는 false로 시작
             this.dragOffset = 0;
             this.startTime = Date.now();
-            document.getElementById('calendarPages').classList.add('dragging');
-            document.body.style.userSelect = 'none';
         };
 
         // 이동 이벤트
-        const handleMove = (clientX) => {
-            if (!this.isDragging) return;
+        const handleMove = (clientX, clientY) => {
+            if (!this.touchStartX) return;
             
-            this.dragOffset = clientX - this.touchStartX;
-            this.updateDragPosition();
+            const deltaX = clientX - this.touchStartX;
+            const deltaY = clientY - this.touchStartY;
+            
+            // 가로 움직임이 세로 움직임보다 크고, 최소 거리 이상일 때만 스와이프 시작
+            if (!this.isDragging && Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 20) {
+                this.isDragging = true;
+                document.getElementById('calendarPages').classList.add('dragging');
+                document.body.style.userSelect = 'none';
+            }
+            
+            if (this.isDragging) {
+                this.dragOffset = deltaX;
+                this.updateDragPosition();
+            }
         };
 
         // 종료 이벤트
@@ -136,12 +147,12 @@ class BusDriverApp {
         // 터치 이벤트
         calendarWrapper.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            handleStart(e.touches[0].clientX);
+            handleStart(e.touches[0].clientX, e.touches[0].clientY);
         }, { passive: false });
 
         calendarWrapper.addEventListener('touchmove', (e) => {
             e.preventDefault();
-            handleMove(e.touches[0].clientX);
+            handleMove(e.touches[0].clientX, e.touches[0].clientY);
         }, { passive: false });
 
         calendarWrapper.addEventListener('touchend', (e) => {
@@ -152,12 +163,12 @@ class BusDriverApp {
         // 마우스 이벤트
         calendarWrapper.addEventListener('mousedown', (e) => {
             e.preventDefault();
-            handleStart(e.clientX);
+            handleStart(e.clientX, e.clientY);
         });
 
         calendarWrapper.addEventListener('mousemove', (e) => {
             e.preventDefault();
-            handleMove(e.clientX);
+            handleMove(e.clientX, e.clientY);
         });
 
         calendarWrapper.addEventListener('mouseup', (e) => {
