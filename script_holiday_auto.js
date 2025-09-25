@@ -325,17 +325,22 @@ class BusDriverApp {
 
     // 달력 렌더링 - 이전 달, 현재 달, 다음 달을 함께 렌더링
     renderCalendar() {
+        // 확실히 오늘 날짜로 설정
+        this.currentDate = new Date();
+        
         const calendar = document.getElementById('calendar');
         const prevCalendar = document.getElementById('prevCalendar');
         const nextCalendar = document.getElementById('nextCalendar');
         const currentMonth = this.currentDate.getMonth();
         const currentYear = this.currentDate.getFullYear();
         
+        console.log('렌더링 중인 달:', currentYear + '년 ' + (currentMonth + 1) + '월');
+        
         // 월 표시 업데이트
         document.getElementById('currentMonth').textContent = 
             currentYear + '년 ' + (currentMonth + 1) + '월';
 
-        // 현재 달 달력 렌더링
+        // 현재 달 달력 렌더링 (중앙에 표시될 달력)
         this.renderCalendarForElement(calendar, currentYear, currentMonth);
         
         // 이전 달 달력 렌더링
@@ -345,6 +350,14 @@ class BusDriverApp {
         // 다음 달 달력 렌더링
         const nextDate = new Date(currentYear, currentMonth + 1);
         this.renderCalendarForElement(nextCalendar, nextDate.getFullYear(), nextDate.getMonth());
+        
+        // 페이지 위치를 중앙으로 확실히 설정
+        const calendarPages = document.getElementById('calendarPages');
+        calendarPages.style.transition = 'none';
+        calendarPages.style.transform = 'translateX(-33.333%)';
+        setTimeout(() => {
+            calendarPages.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        }, 10);
     }
 
     // 특정 요소에 달력 렌더링
