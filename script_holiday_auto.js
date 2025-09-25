@@ -45,6 +45,7 @@ class BusDriverApp {
     // 한국 공휴일 데이터 가져오기
     getKoreanHolidays(year = null) {
         const targetYear = year || this.currentDate.getFullYear();
+        console.log('공휴일 데이터 생성 중 - 년도:', targetYear);
         const holidays = {};
         
         // 양력 공휴일
@@ -438,6 +439,11 @@ class BusDriverApp {
         const yearHolidays = this.getKoreanHolidays(targetYear);
         const dateKey = this.getDateKey(date);
         const holiday = yearHolidays[dateKey] || null;
+        
+        // 디버그 로그
+        if (holiday) {
+            console.log('공휴일 발견:', dateKey, holiday, '년도:', targetYear);
+        }
 
         if (isToday) {
             dayElement.classList.add('today');
