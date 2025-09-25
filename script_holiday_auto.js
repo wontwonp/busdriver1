@@ -1,6 +1,7 @@
 ﻿// 앱 상태 관리
 class BusDriverApp {
     constructor() {
+        // 항상 오늘 날짜로 설정
         this.currentDate = new Date();
         this.records = this.loadRecords();
         this.settings = this.loadSettings();
@@ -21,6 +22,8 @@ class BusDriverApp {
     }
 
     init() {
+        // 오늘 날짜로 확실히 설정
+        this.currentDate = new Date();
         this.setupEventListeners();
         this.renderCalendar();
         this.updateMonthlySummary();
