@@ -15,6 +15,7 @@ body {
 .app-container {
     width: 100%;
     margin: 0;
+    padding: 0;
     background: white;
     min-height: 100vh;
 }
@@ -23,7 +24,7 @@ body {
 .header {
     background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     color: white;
-    padding: 1rem 2rem;
+    padding: 1rem 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -33,6 +34,11 @@ body {
 .header h1 {
     font-size: 1.8rem;
     font-weight: 600;
+    padding-left: 1rem;
+}
+
+.header .btn {
+    margin-right: 1rem;
 }
 
 .header h1 i {
@@ -141,7 +147,7 @@ body {
 .calendar-container {
     background: white;
     border-radius: 0;
-    padding: 10px;
+    padding: 0;
     position: relative;
     width: 100%;
 }
