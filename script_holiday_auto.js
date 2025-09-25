@@ -722,6 +722,9 @@ class BusDriverApp {
                     totalTrips += record.trips || 0;
                     lunchTotal += record.lunchCost || 0;
                     
+                    // 디버그 로그: 각 근무일의 점심비 확인
+                    console.log(`${day}일 근무 - 점심비: ${record.lunchCost || 0}원, 공휴일: ${holiday || '없음'}`);
+                    
                     const dayOfWeek = date.getDay(); // 0=일요일, 6=토요일
                     
                     // 공휴일 근무인 경우 휴일 급여, 아니면 일반 급여
@@ -763,6 +766,9 @@ class BusDriverApp {
             }
         }
 
+        // 디버그 로그: 총 점심비 확인
+        console.log(`총 점심비 계산: ${workDays}일 근무 × ${this.settings.defaultLunchCost || 0}원 = ${lunchTotal}원`);
+        
         document.getElementById('workDays').textContent = workDays + '일';
         document.getElementById('totalTrips').textContent = totalTrips + '회';
         document.getElementById('lunchTotal').textContent = lunchTotal.toLocaleString() + '원';
