@@ -399,8 +399,7 @@ class BusDriverApp {
 
     // 달력 렌더링 - 이전 달, 현재 달, 다음 달을 함께 렌더링
     renderCalendar() {
-        // 확실히 오늘 날짜로 설정
-        this.currentDate = new Date();
+        // 현재 설정된 날짜 사용 (월 이동 시 변경된 날짜 유지)
         
         const calendar = document.getElementById('calendar');
         const prevCalendar = document.getElementById('prevCalendar');
