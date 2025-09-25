@@ -13,7 +13,7 @@ class BusDriverApp {
         // 터치 스와이프를 위한 변수들
         this.touchStartX = 0;
         this.touchEndX = 0;
-        this.minSwipeDistance = 50; // 최소 스와이프 거리
+        this.minSwipeDistance = 30; // 최소 스와이프 거리 (더 민감하게)
         this.isDragging = false;
         this.dragOffset = 0;
         this.currentPageIndex = 1; // 현재 페이지 인덱스 (0: 이전달, 1: 현재달, 2: 다음달)
@@ -101,66 +101,78 @@ class BusDriverApp {
             this.goToNextMonth();
         });
 
-        // 터치 이벤트 (스와이프)
+        // 통합된 스와이프 이벤트 (터치 + 마우스)
         const calendarWrapper = document.querySelector('.calendar-wrapper');
         
-        calendarWrapper.addEventListener('touchstart', (e) => {
-            this.touchStartX = e.touches[0].clientX;
+        // 시작 이벤트 (터치 또는 마우스)
+        const handleStart = (clientX) => {
+            this.touchStartX = clientX;
             this.isDragging = true;
             this.dragOffset = 0;
+            this.startTime = Date.now();
             document.getElementById('calendarPages').classList.add('dragging');
-        }, { passive: true });
+            document.body.style.userSelect = 'none';
+        };
 
-        calendarWrapper.addEventListener('touchmove', (e) => {
+        // 이동 이벤트
+        const handleMove = (clientX) => {
             if (!this.isDragging) return;
             
-            const currentX = e.touches[0].clientX;
-            this.dragOffset = currentX - this.touchStartX;
+            this.dragOffset = clientX - this.touchStartX;
             this.updateDragPosition();
-        }, { passive: true });
+        };
 
-        calendarWrapper.addEventListener('touchend', (e) => {
+        // 종료 이벤트
+        const handleEnd = (clientX) => {
             if (!this.isDragging) return;
             
-            this.touchEndX = e.changedTouches[0].clientX;
+            this.touchEndX = clientX;
             this.isDragging = false;
             document.getElementById('calendarPages').classList.remove('dragging');
+            document.body.style.userSelect = '';
             this.handleSwipeEnd();
-        }, { passive: true });
+        };
 
-        // 마우스 이벤트 (드래그)
-        let isMouseDown = false;
-        let mouseStartX = 0;
-
-        calendarWrapper.addEventListener('mousedown', (e) => {
-            isMouseDown = true;
-            mouseStartX = e.clientX;
-            this.isDragging = true;
-            this.dragOffset = 0;
-            document.getElementById('calendarPages').classList.add('dragging');
-            // 텍스트 선택 방지
+        // 터치 이벤트
+        calendarWrapper.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            document.body.style.userSelect = 'none';
+            handleStart(e.touches[0].clientX);
+        }, { passive: false });
+
+        calendarWrapper.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            handleMove(e.touches[0].clientX);
+        }, { passive: false });
+
+        calendarWrapper.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            handleEnd(e.changedTouches[0].clientX);
+        }, { passive: false });
+
+        // 마우스 이벤트
+        calendarWrapper.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            handleStart(e.clientX);
         });
 
         calendarWrapper.addEventListener('mousemove', (e) => {
-            if (!isMouseDown || !this.isDragging) return;
-            
-            const currentX = e.clientX;
-            this.dragOffset = currentX - mouseStartX;
-            this.updateDragPosition();
             e.preventDefault();
+            handleMove(e.clientX);
         });
 
         calendarWrapper.addEventListener('mouseup', (e) => {
-            if (!isMouseDown || !this.isDragging) return;
-            
-            isMouseDown = false;
-            this.isDragging = false;
-            document.getElementById('calendarPages').classList.remove('dragging');
-            // 텍스트 선택 복원
-            document.body.style.userSelect = '';
-            this.handleSwipeEnd();
+            e.preventDefault();
+            handleEnd(e.clientX);
+        });
+
+        // 마우스가 캘린더 밖으로 나갔을 때 처리
+        document.addEventListener('mouseup', () => {
+            if (this.isDragging) {
+                this.isDragging = false;
+                document.getElementById('calendarPages').classList.remove('dragging');
+                document.body.style.userSelect = '';
+                this.handleSwipeEnd();
+            }
         });
 
         // 설정 버튼
@@ -256,11 +268,16 @@ class BusDriverApp {
         const calendarPages = document.getElementById('calendarPages');
         const wrapper = document.querySelector('.calendar-wrapper');
         
+        if (!wrapper || !calendarPages) return;
+        
         // 드래그 중에는 이전/다음 달이 보이도록 전체 범위에서 이동
         const dragPercent = (this.dragOffset / wrapper.offsetWidth) * 100;
         const totalTransform = -33.333 + dragPercent; // 중앙에서 시작해서 드래그만큼 이동
         
-        calendarPages.style.transform = `translateX(${totalTransform}%)`;
+        // 드래그 범위 제한 (너무 멀리 가지 않도록)
+        const clampedTransform = Math.max(-66.666, Math.min(0, totalTransform));
+        
+        calendarPages.style.transform = `translateX(${clampedTransform}%)`;
     }
 
     // 스와이프 종료 처리
