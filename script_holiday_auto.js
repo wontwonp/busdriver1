@@ -22,11 +22,24 @@ class BusDriverApp {
     }
 
     init() {
-        // 오늘 날짜로 확실히 설정
-        this.currentDate = new Date();
+        // 오늘 날짜로 강제 리셋
+        this.resetToToday();
         this.setupEventListeners();
         this.renderCalendar();
         this.updateMonthlySummary();
+    }
+
+    // 오늘 날짜로 강제 리셋
+    resetToToday() {
+        this.currentDate = new Date();
+        console.log('오늘 날짜로 리셋:', this.currentDate.getFullYear() + '년 ' + (this.currentDate.getMonth() + 1) + '월');
+        
+        // 페이지 위치도 강제로 중앙으로 리셋
+        const calendarPages = document.getElementById('calendarPages');
+        if (calendarPages) {
+            calendarPages.style.transition = 'none';
+            calendarPages.style.transform = 'translateX(-33.333%)';
+        }
     }
 
     // 한국 공휴일 데이터 가져오기
@@ -201,6 +214,7 @@ class BusDriverApp {
     // 이전 달로 이동
     goToPreviousMonth() {
         this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+        console.log('이전 달로 이동:', this.currentDate.getFullYear() + '년 ' + (this.currentDate.getMonth() + 1) + '월');
         this.renderCalendar();
         this.updateMonthlySummary();
         
@@ -218,6 +232,7 @@ class BusDriverApp {
     // 다음 달로 이동
     goToNextMonth() {
         this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+        console.log('다음 달로 이동:', this.currentDate.getFullYear() + '년 ' + (this.currentDate.getMonth() + 1) + '월');
         this.renderCalendar();
         this.updateMonthlySummary();
         
