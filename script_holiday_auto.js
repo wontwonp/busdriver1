@@ -233,15 +233,8 @@ class BusDriverApp {
         this.renderCalendar();
         this.updateMonthlySummary();
         
-        // 페이지 위치를 즉시 중앙으로 리셋 (애니메이션 없이)
-        const calendarPages = document.getElementById('calendarPages');
-        calendarPages.style.transition = 'none';
-        calendarPages.style.transform = 'translateX(-33.333%)';
-        
-        // 다음 프레임에서 transition 복원
-        requestAnimationFrame(() => {
-            calendarPages.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        });
+        // 부드러운 슬라이드 애니메이션
+        this.slideToMonth('previous');
     }
 
     // 다음 달로 이동
@@ -251,14 +244,37 @@ class BusDriverApp {
         this.renderCalendar();
         this.updateMonthlySummary();
         
-        // 페이지 위치를 즉시 중앙으로 리셋 (애니메이션 없이)
+        // 부드러운 슬라이드 애니메이션
+        this.slideToMonth('next');
+    }
+
+    // 달력 슬라이드 애니메이션
+    slideToMonth(direction) {
         const calendarPages = document.getElementById('calendarPages');
-        calendarPages.style.transition = 'none';
-        calendarPages.style.transform = 'translateX(-33.333%)';
         
-        // 다음 프레임에서 transition 복원
+        // 현재 위치에서 시작
+        const startTransform = -33.333;
+        const endTransform = direction === 'previous' ? 0 : -66.666;
+        
+        // 즉시 시작 위치로 이동 (애니메이션 없이)
+        calendarPages.style.transition = 'none';
+        calendarPages.style.transform = `translateX(${startTransform}%)`;
+        
+        // 다음 프레임에서 목표 위치로 슬라이드
         requestAnimationFrame(() => {
-            calendarPages.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            calendarPages.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            calendarPages.style.transform = `translateX(${endTransform}%)`;
+            
+            // 애니메이션 완료 후 중앙으로 즉시 이동
+            setTimeout(() => {
+                calendarPages.style.transition = 'none';
+                calendarPages.style.transform = 'translateX(-33.333%)';
+                
+                // 기본 transition 복원
+                requestAnimationFrame(() => {
+                    calendarPages.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
+                });
+            }, 300);
         });
     }
 
@@ -282,7 +298,18 @@ class BusDriverApp {
 
     // 스와이프 종료 처리
     handleSwipeEnd() {
-        if (Math.abs(this.dragOffset) > this.minSwipeDistance) {
+        const calendarPages = document.getElementById('calendarPages');
+        const swipeThreshold = this.minSwipeDistance;
+        const velocityThreshold = 0.3; // 속도 임계값
+        
+        // 스와이프 속도 계산
+        const swipeTime = Date.now() - (this.startTime || Date.now());
+        const velocity = Math.abs(this.dragOffset) / Math.max(swipeTime, 1);
+        
+        // 거리 또는 속도 기준으로 스와이프 판단
+        const shouldSwipe = Math.abs(this.dragOffset) > swipeThreshold || velocity > velocityThreshold;
+        
+        if (shouldSwipe) {
             if (this.dragOffset > 0) {
                 // 오른쪽으로 스와이프 (이전 달)
                 this.goToPreviousMonth();
@@ -291,8 +318,8 @@ class BusDriverApp {
                 this.goToNextMonth();
             }
         } else {
-            // 원래 위치로 되돌리기
-            this.snapToCurrentPage();
+            // 탄성 애니메이션으로 원래 위치로 복귀
+            this.snapToCurrentPageWithBounce();
         }
     }
 
@@ -300,6 +327,18 @@ class BusDriverApp {
     snapToCurrentPage() {
         const calendarPages = document.getElementById('calendarPages');
         calendarPages.style.transform = 'translateX(-33.333%)';
+    }
+
+    // 탄성 애니메이션으로 원래 위치로 복귀
+    snapToCurrentPageWithBounce() {
+        const calendarPages = document.getElementById('calendarPages');
+        calendarPages.style.transition = 'transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        calendarPages.style.transform = 'translateX(-33.333%)';
+        
+        // 애니메이션 완료 후 기본 transition 복원
+        setTimeout(() => {
+            calendarPages.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
+        }, 400);
     }
 
 
