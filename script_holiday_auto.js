@@ -84,7 +84,9 @@ class BusDriverApp {
     // 공휴일 확인
     isHoliday(date) {
         const dateKey = this.getDateKey(date);
-        return this.holidays[dateKey] || null;
+        const year = date.getFullYear();
+        const yearHolidays = this.getKoreanHolidays(year);
+        return yearHolidays[dateKey] || null;
     }
 
     // 이벤트 리스너 설정
@@ -276,10 +278,10 @@ class BusDriverApp {
         }
     }
 
-    // 현재 페이지로 스냅
+    // 현재 페이지로 되돌리기
     snapToCurrentPage() {
         const calendarPages = document.getElementById('calendarPages');
-        calendarPages.style.transform = `translateX(${-this.currentPageIndex * 33.333}%)`;
+        calendarPages.style.transform = 'translateX(-33.333%)';
     }
 
 
