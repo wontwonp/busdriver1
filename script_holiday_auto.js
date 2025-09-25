@@ -146,33 +146,39 @@ class BusDriverApp {
 
         // 터치 이벤트
         calendarWrapper.addEventListener('touchstart', (e) => {
-            e.preventDefault();
             handleStart(e.touches[0].clientX, e.touches[0].clientY);
-        }, { passive: false });
+        }, { passive: true });
 
         calendarWrapper.addEventListener('touchmove', (e) => {
-            e.preventDefault();
+            if (this.isDragging) {
+                e.preventDefault();
+            }
             handleMove(e.touches[0].clientX, e.touches[0].clientY);
         }, { passive: false });
 
         calendarWrapper.addEventListener('touchend', (e) => {
-            e.preventDefault();
+            if (this.isDragging) {
+                e.preventDefault();
+            }
             handleEnd(e.changedTouches[0].clientX);
         }, { passive: false });
 
         // 마우스 이벤트
         calendarWrapper.addEventListener('mousedown', (e) => {
-            e.preventDefault();
             handleStart(e.clientX, e.clientY);
         });
 
         calendarWrapper.addEventListener('mousemove', (e) => {
-            e.preventDefault();
+            if (this.isDragging) {
+                e.preventDefault();
+            }
             handleMove(e.clientX, e.clientY);
         });
 
         calendarWrapper.addEventListener('mouseup', (e) => {
-            e.preventDefault();
+            if (this.isDragging) {
+                e.preventDefault();
+            }
             handleEnd(e.clientX);
         });
 
