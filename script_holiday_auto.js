@@ -640,11 +640,22 @@ class BusDriverApp {
         const existingNotices = document.querySelectorAll('.holiday-notice');
         existingNotices.forEach(notice => notice.remove());
 
-        // 공휴일인 경우 안내 메시지 표시
-        if (holiday) {
+        // 공휴일, 토요일, 일요일인 경우 안내 메시지 표시
+        const dayOfWeek = date.getDay(); // 0=일요일, 6=토요일
+        if (holiday || dayOfWeek === 0 || dayOfWeek === 6) {
             const holidayNotice = document.createElement('div');
             holidayNotice.className = 'holiday-notice';
-            holidayNotice.innerHTML = '<i class="fas fa-info-circle"></i> ' + holiday + ' - 근무 시 휴일/공휴일 급여가 적용됩니다';
+            
+            let noticeText = '';
+            if (holiday) {
+                noticeText = holiday + ' - 근무 시 휴일/공휴일 편도금액이 적용됩니다';
+            } else if (dayOfWeek === 0) {
+                noticeText = '일요일 - 근무 시 휴일/공휴일 편도금액이 적용됩니다';
+            } else if (dayOfWeek === 6) {
+                noticeText = '토요일 - 근무 시 휴일/공휴일 편도금액이 적용됩니다';
+            }
+            
+            holidayNotice.innerHTML = '<i class="fas fa-info-circle"></i> ' + noticeText;
             document.querySelector('.modal-body').insertBefore(holidayNotice, document.querySelector('.form-group'));
         }
 
@@ -700,17 +711,15 @@ class BusDriverApp {
             
             const dayOfWeek = this.selectedDate.getDay(); // 0=일요일, 6=토요일
             
-            // 공휴일인 경우 휴일 급여 적용
-            if (holiday) {
-                record.holidayPay = this.settings.defaultHolidayPay || 0;
-                record.lunchCost = 0; // 공휴일 근무 시 점심비 없음
+            // 토요일(6), 일요일(0), 공휴일인 경우 휴일/공휴일 편도금액 적용
+            if (dayOfWeek === 0 || dayOfWeek === 6 || holiday) {
+                record.holidayTripRate = this.settings.defaultHolidayPay || 0;
+                record.lunchCost = 0; // 휴일/공휴일 근무 시 점심비 없음
             } else {
-                // 주말 근무 시에도 점심비 적용
+                // 평일 근무 시 점심비 적용
                 record.lunchCost = this.settings.defaultLunchCost || 0;
-            }
-            
-            // 체크박스 상태에 따라 급여 계산 방식 결정 (공휴일이 아닌 경우만)
-            if (!holiday) {
+                
+                // 체크박스 상태에 따라 급여 계산 방식 결정
                 if (this.settings.useTripRate) {
                     // 설정의 편도당 급여 사용
                     record.tripRate = this.settings.tripRate || 0;
@@ -801,11 +810,12 @@ class BusDriverApp {
                     
                     const dayOfWeek = date.getDay(); // 0=일요일, 6=토요일
                     
-                    // 공휴일 근무인 경우 휴일 급여, 아니면 일반 급여
-                    if (holiday) {
-                        expectedSalary += record.holidayPay || 0;
+                    // 토요일(6), 일요일(0), 공휴일 근무인 경우 휴일/공휴일 편도금액 적용
+                    if (dayOfWeek === 0 || dayOfWeek === 6 || holiday) {
+                        const holidayTripRate = record.holidayTripRate || this.settings.defaultHolidayPay || 0;
+                        expectedSalary += (record.trips || 0) * holidayTripRate;
                     } else {
-                        // 개별 편도금액이 있으면 사용, 없으면 설정의 편도당 급여 사용
+                        // 평일 근무인 경우 개별 편도금액이 있으면 사용, 없으면 설정의 편도당 급여 사용
                         const tripRate = record.individualTripRate || this.settings.tripRate || 0;
                         expectedSalary += (record.trips || 0) * tripRate;
                     }
