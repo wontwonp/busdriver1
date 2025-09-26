@@ -711,15 +711,14 @@ class BusDriverApp {
             
             const dayOfWeek = this.selectedDate.getDay(); // 0=일요일, 6=토요일
             
+            // 모든 근무일에 점심비 적용
+            record.lunchCost = this.settings.defaultLunchCost || 0;
+            
             // 토요일(6), 일요일(0), 공휴일인 경우 휴일/공휴일 편도금액 적용
             if (dayOfWeek === 0 || dayOfWeek === 6 || holiday) {
                 record.holidayTripRate = this.settings.defaultHolidayPay || 0;
-                record.lunchCost = 0; // 휴일/공휴일 근무 시 점심비 없음
             } else {
-                // 평일 근무 시 점심비 적용
-                record.lunchCost = this.settings.defaultLunchCost || 0;
-                
-                // 체크박스 상태에 따라 급여 계산 방식 결정
+                // 평일 근무 시 체크박스 상태에 따라 급여 계산 방식 결정
                 if (this.settings.useTripRate) {
                     // 설정의 편도당 급여 사용
                     record.tripRate = this.settings.tripRate || 0;
