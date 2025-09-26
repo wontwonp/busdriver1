@@ -695,7 +695,7 @@ class BusDriverApp {
         };
 
         if (status === 'work') {
-            record.trips = this.parseFormattedNumber(document.getElementById('trips').value);
+            record.trips = parseInt(document.getElementById('trips').value) || 0;
             record.memo = document.getElementById('memo').value;
             
             const dayOfWeek = this.selectedDate.getDay(); // 0=일요일, 6=토요일
@@ -707,8 +707,10 @@ class BusDriverApp {
             } else {
                 // 주말 근무 시에도 점심비 적용
                 record.lunchCost = this.settings.defaultLunchCost || 0;
-                
-                // 체크박스 상태에 따라 급여 계산 방식 결정
+            }
+            
+            // 체크박스 상태에 따라 급여 계산 방식 결정 (공휴일이 아닌 경우만)
+            if (!holiday) {
                 if (this.settings.useTripRate) {
                     // 설정의 편도당 급여 사용
                     record.tripRate = this.settings.tripRate || 0;
