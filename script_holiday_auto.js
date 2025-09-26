@@ -829,7 +829,7 @@ class BusDriverApp {
             fullAttendanceBonus = this.settings.baseSalary || 0;
             expectedSalary += fullAttendanceBonus;
         } else if (workDays > 0 && this.settings.fullAttendanceDays > 0) {
-            // 만근 실패 시 말일 입력 확인 후 부분 지급
+            // 만근 실패 시 말일 입력 확인 후 일당 계산으로 부분 지급
             const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
             const lastDayRecord = this.getRecord(new Date(currentYear, currentMonth, lastDayOfMonth));
             
@@ -841,12 +841,18 @@ class BusDriverApp {
                 baseSalary: this.settings.baseSalary
             });
             
-            if (lastDayRecord && lastDayRecord.status === 'work' && (lastDayRecord.trips > 0 || lastDayRecord.memo)) {
-                // 말일에 근무 기록이 있고 편도수나 메모 중 하나라도 있으면 부분 지급
-                const partialBonus = Math.floor((this.settings.baseSalary || 0) * (workDays / this.settings.fullAttendanceDays));
+            // 말일에 아무 입력만 되어도 기본급 계산 (근무여부 관계없이)
+            if (lastDayRecord) {
+                // 일당 계산: (기본급 ÷ 만근일수) × 실제 근무일수
+                const dailyRate = (this.settings.baseSalary || 0) / this.settings.fullAttendanceDays;
+                const partialBonus = Math.floor(dailyRate * workDays);
                 fullAttendanceBonus = partialBonus;
                 expectedSalary += partialBonus;
-                console.log('부분 지급 계산:', partialBonus);
+                console.log('일당 계산 부분 지급:', {
+                    dailyRate: dailyRate,
+                    workDays: workDays,
+                    partialBonus: partialBonus
+                });
             }
         }
 
