@@ -156,6 +156,19 @@ class BusDriverApp {
             this.saveSettings();
         });
 
+        // 데이터 내보내기/가져오기
+        document.getElementById('exportData').addEventListener('click', () => {
+            this.exportData();
+        });
+
+        document.getElementById('importData').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            this.importData(e);
+        });
+
         // 숫자 입력 필드에 콤마 포맷팅 추가
         this.setupNumberFormatting();
 
@@ -689,6 +702,63 @@ class BusDriverApp {
 
     saveSettingsToStorage() {
         localStorage.setItem('busDriverSettings', JSON.stringify(this.settings));
+    }
+
+    // 데이터 내보내기
+    exportData() {
+        const data = {
+            records: this.records,
+            settings: this.settings,
+            exportDate: new Date().toISOString(),
+            version: '1.0'
+        };
+        
+        const dataStr = JSON.stringify(data, null, 2);
+        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+        
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(dataBlob);
+        link.download = `버스기사데이터_${new Date().toISOString().split('T')[0]}.json`;
+        link.click();
+        
+        alert('데이터가 다운로드되었습니다. 이 파일을 안전한 곳에 보관하세요.');
+    }
+
+    // 데이터 가져오기
+    importData(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+                
+                if (!data.records || !data.settings) {
+                    throw new Error('잘못된 데이터 형식입니다.');
+                }
+                
+                if (confirm('기존 데이터를 모두 덮어쓰시겠습니까?')) {
+                    this.records = data.records;
+                    this.settings = data.settings;
+                    
+                    this.saveRecords();
+                    this.saveSettingsToStorage();
+                    
+                    this.renderCalendar();
+                    this.updateMonthlySummary();
+                    
+                    alert('데이터가 성공적으로 복원되었습니다.');
+                }
+            } catch (error) {
+                alert('데이터 가져오기 실패: ' + error.message);
+            }
+        };
+        
+        reader.readAsText(file);
+        
+        // 파일 입력 초기화
+        event.target.value = '';
     }
 }
 

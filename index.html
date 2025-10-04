@@ -181,6 +181,18 @@
                         <label>만근일 기준</label>
                         <input type="number" id="fullAttendanceDays" placeholder="만근일 기준 (예: 25일)" min="0">
                     </div>
+                    
+                    <div class="form-group">
+                        <label>데이터 관리</label>
+                        <div class="data-management">
+                            <button id="exportData" class="btn btn-secondary">
+                                <i class="fas fa-download"></i> 데이터 내보내기
+                            </button>
+                            <button id="importData" class="btn btn-secondary">
+                                <i class="fas fa-upload"></i> 데이터 가져오기
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button id="saveSettings" class="btn btn-primary">저장</button>
@@ -188,6 +200,9 @@
             </div>
         </div>
     </div>
+
+    <!-- 파일 입력 (숨김) -->
+    <input type="file" id="fileInput" accept=".json" style="display: none;">
 
     <script src="script_holiday_auto.js"></script>
     
