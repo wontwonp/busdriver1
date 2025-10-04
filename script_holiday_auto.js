@@ -453,7 +453,7 @@ class BusDriverApp {
         if (holiday) {
             const holidayNotice = document.createElement('div');
             holidayNotice.className = 'holiday-notice';
-            holidayNotice.innerHTML = '<i class="fas fa-info-circle"></i> ' + holiday + ' - 근무 시 휴일/공휴일 급여(편도수×휴일급여)가 적용됩니다';
+            holidayNotice.innerHTML = '<i class="fas fa-info-circle"></i> ' + holiday + ' - 근무 시 휴일/공휴일 급여(편도수×휴일급여)와 점심비가 적용됩니다';
             document.querySelector('.modal-body').insertBefore(holidayNotice, document.querySelector('.form-group'));
         }
 
@@ -531,15 +531,10 @@ class BusDriverApp {
             if (record.substituteHoliday || holiday || dayOfWeek === 0 || dayOfWeek === 6) {
                 // 휴일/공휴일 급여는 편도수에 비례하여 계산
                 record.holidayPay = (record.trips || 0) * (this.settings.defaultHolidayPay || 0);
-                // 대체공휴일로 설정된 경우 점심비도 합산
-                if (record.substituteHoliday) {
-                    record.lunchCost = this.settings.defaultLunchCost || 0;
-                } else {
-                    record.lunchCost = 0; // 일반 공휴일/주말 근무 시 점심비 없음
-                }
-            } else {
-                record.lunchCost = this.settings.defaultLunchCost || 0;
             }
+            
+            // 근무 시 항상 점심비 적용 (휴일/공휴일 상관없이)
+            record.lunchCost = this.settings.defaultLunchCost || 0;
         } else if (status === 'off') {
             record.memo = document.getElementById('memo').value;
         }
