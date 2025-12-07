@@ -279,157 +279,172 @@ body {
     border-left: 4px solid #4caf50;
 }
 
-/* 편도수별 색상 구분 */
-.calendar-day.work-day-trips-1 {
-    background: #e3f2fd;
-    border-left: 4px solid #2196f3;
+/* 편도수별 색상 구분 - 더 구체적인 선택자로 우선순위 높임 */
+.calendar-day.work-day.work-day-trips-1 {
+    background: #e3f2fd !important;
+    border-left: 4px solid #2196f3 !important;
 }
 
-.calendar-day.work-day-trips-2 {
-    background: #e1f5fe;
-    border-left: 4px solid #03a9f4;
+.calendar-day.work-day.work-day-trips-2 {
+    background: #e1f5fe !important;
+    border-left: 4px solid #03a9f4 !important;
 }
 
-.calendar-day.work-day-trips-3 {
-    background: #e8f5e8;
-    border-left: 4px solid #4caf50;
+.calendar-day.work-day.work-day-trips-3 {
+    background: #e8f5e8 !important;
+    border-left: 4px solid #4caf50 !important;
 }
 
-.calendar-day.work-day-trips-4 {
-    background: #fff9c4;
-    border-left: 4px solid #fbc02d;
+.calendar-day.work-day.work-day-trips-4 {
+    background: #fff9c4 !important;
+    border-left: 4px solid #fbc02d !important;
 }
 
-.calendar-day.work-day-trips-5 {
-    background: #ffe0b2;
-    border-left: 4px solid #ff9800;
+.calendar-day.work-day.work-day-trips-5 {
+    background: #ffe0b2 !important;
+    border-left: 4px solid #ff9800 !important;
 }
 
-.calendar-day.work-day-trips-6 {
-    background: #ffccbc;
-    border-left: 4px solid #ff5722;
+.calendar-day.work-day.work-day-trips-6 {
+    background: #ffccbc !important;
+    border-left: 4px solid #ff5722 !important;
 }
 
-.calendar-day.work-day-trips-7 {
-    background: #f8bbd0;
-    border-left: 4px solid #e91e63;
+.calendar-day.work-day.work-day-trips-7 {
+    background: #f8bbd0 !important;
+    border-left: 4px solid #e91e63 !important;
 }
 
-.calendar-day.work-day-trips-8 {
-    background: #f3e5f5;
-    border-left: 4px solid #9c27b0;
+.calendar-day.work-day.work-day-trips-8 {
+    background: #f3e5f5 !important;
+    border-left: 4px solid #9c27b0 !important;
 }
 
 /* 9편도 이상 */
-.calendar-day.work-day-trips-9,
-.calendar-day.work-day-trips-10,
-.calendar-day.work-day[data-trips]:not([class*="work-day-trips-"]) {
-    background: #fce4ec;
-    border-left: 4px solid #c2185b;
+.calendar-day.work-day.work-day-trips-9,
+.calendar-day.work-day.work-day-trips-10 {
+    background: #fce4ec !important;
+    border-left: 4px solid #c2185b !important;
 }
 
 /* 10편도 이상은 더 진한 색상 */
-.calendar-day.work-day[data-trips] {
-    background: #f8bbd0;
-    border-left: 4px solid #e91e63;
+.calendar-day.work-day[data-trips]:not([class*="work-day-trips-"]) {
+    background: #f8bbd0 !important;
+    border-left: 4px solid #e91e63 !important;
 }
 
 /* 편도수별 색상이 주말/공휴일과 겹칠 때 - 모든 편도수 커버 */
-.calendar-day.sunday.work-day-trips-1,
-.calendar-day.saturday.work-day-trips-1 {
-    background: #e3f2fd;
-    color: #1976d2;
+.calendar-day.sunday.work-day.work-day-trips-1,
+.calendar-day.saturday.work-day.work-day-trips-1 {
+    background: #e3f2fd !important;
+    color: #1976d2 !important;
+    border-left: 4px solid #2196f3 !important;
 }
 
-.calendar-day.sunday.work-day-trips-2,
-.calendar-day.saturday.work-day-trips-2 {
-    background: #e1f5fe;
-    color: #0288d1;
+.calendar-day.sunday.work-day.work-day-trips-2,
+.calendar-day.saturday.work-day.work-day-trips-2 {
+    background: #e1f5fe !important;
+    color: #0288d1 !important;
+    border-left: 4px solid #03a9f4 !important;
 }
 
-.calendar-day.sunday.work-day-trips-3,
-.calendar-day.saturday.work-day-trips-3 {
-    background: #e8f5e8;
-    color: #2e7d32;
+.calendar-day.sunday.work-day.work-day-trips-3,
+.calendar-day.saturday.work-day.work-day-trips-3 {
+    background: #e8f5e8 !important;
+    color: #2e7d32 !important;
+    border-left: 4px solid #4caf50 !important;
 }
 
-.calendar-day.sunday.work-day-trips-4,
-.calendar-day.saturday.work-day-trips-4 {
-    background: #fff9c4;
-    color: #f57f17;
+.calendar-day.sunday.work-day.work-day-trips-4,
+.calendar-day.saturday.work-day.work-day-trips-4 {
+    background: #fff9c4 !important;
+    color: #f57f17 !important;
+    border-left: 4px solid #fbc02d !important;
 }
 
-.calendar-day.sunday.work-day-trips-5,
-.calendar-day.saturday.work-day-trips-5 {
-    background: #ffe0b2;
-    color: #e65100;
+.calendar-day.sunday.work-day.work-day-trips-5,
+.calendar-day.saturday.work-day.work-day-trips-5 {
+    background: #ffe0b2 !important;
+    color: #e65100 !important;
+    border-left: 4px solid #ff9800 !important;
 }
 
-.calendar-day.sunday.work-day-trips-6,
-.calendar-day.saturday.work-day-trips-6 {
-    background: #ffccbc;
-    color: #d84315;
+.calendar-day.sunday.work-day.work-day-trips-6,
+.calendar-day.saturday.work-day.work-day-trips-6 {
+    background: #ffccbc !important;
+    color: #d84315 !important;
+    border-left: 4px solid #ff5722 !important;
 }
 
-.calendar-day.sunday.work-day-trips-7,
-.calendar-day.saturday.work-day-trips-7 {
-    background: #f8bbd0;
-    color: #c2185b;
+.calendar-day.sunday.work-day.work-day-trips-7,
+.calendar-day.saturday.work-day.work-day-trips-7 {
+    background: #f8bbd0 !important;
+    color: #c2185b !important;
+    border-left: 4px solid #e91e63 !important;
 }
 
-.calendar-day.sunday.work-day-trips-8,
-.calendar-day.saturday.work-day-trips-8 {
-    background: #f3e5f5;
-    color: #7b1fa2;
+.calendar-day.sunday.work-day.work-day-trips-8,
+.calendar-day.saturday.work-day.work-day-trips-8 {
+    background: #f3e5f5 !important;
+    color: #7b1fa2 !important;
+    border-left: 4px solid #9c27b0 !important;
 }
 
-.calendar-day.holiday.work-day-trips-1 {
-    background: #e3f2fd;
-    color: #1976d2;
+.calendar-day.holiday.work-day.work-day-trips-1 {
+    background: #e3f2fd !important;
+    color: #1976d2 !important;
+    border-left: 4px solid #2196f3 !important;
 }
 
-.calendar-day.holiday.work-day-trips-2 {
-    background: #e1f5fe;
-    color: #0288d1;
+.calendar-day.holiday.work-day.work-day-trips-2 {
+    background: #e1f5fe !important;
+    color: #0288d1 !important;
+    border-left: 4px solid #03a9f4 !important;
 }
 
-.calendar-day.holiday.work-day-trips-3 {
-    background: #e8f5e8;
-    color: #2e7d32;
+.calendar-day.holiday.work-day.work-day-trips-3 {
+    background: #e8f5e8 !important;
+    color: #2e7d32 !important;
+    border-left: 4px solid #4caf50 !important;
 }
 
-.calendar-day.holiday.work-day-trips-4 {
-    background: #fff9c4;
-    color: #f57f17;
+.calendar-day.holiday.work-day.work-day-trips-4 {
+    background: #fff9c4 !important;
+    color: #f57f17 !important;
+    border-left: 4px solid #fbc02d !important;
 }
 
-.calendar-day.holiday.work-day-trips-5 {
-    background: #ffe0b2;
-    color: #e65100;
+.calendar-day.holiday.work-day.work-day-trips-5 {
+    background: #ffe0b2 !important;
+    color: #e65100 !important;
+    border-left: 4px solid #ff9800 !important;
 }
 
-.calendar-day.holiday.work-day-trips-6 {
-    background: #ffccbc;
-    color: #d84315;
+.calendar-day.holiday.work-day.work-day-trips-6 {
+    background: #ffccbc !important;
+    color: #d84315 !important;
+    border-left: 4px solid #ff5722 !important;
 }
 
-.calendar-day.holiday.work-day-trips-7 {
-    background: #f8bbd0;
-    color: #c2185b;
+.calendar-day.holiday.work-day.work-day-trips-7 {
+    background: #f8bbd0 !important;
+    color: #c2185b !important;
+    border-left: 4px solid #e91e63 !important;
 }
 
-.calendar-day.holiday.work-day-trips-8 {
-    background: #f3e5f5;
-    color: #7b1fa2;
+.calendar-day.holiday.work-day.work-day-trips-8 {
+    background: #f3e5f5 !important;
+    color: #7b1fa2 !important;
+    border-left: 4px solid #9c27b0 !important;
 }
 
 /* 9편도 이상 주말/공휴일 */
-.calendar-day.sunday.work-day[data-trips],
-.calendar-day.saturday.work-day[data-trips],
-.calendar-day.holiday.work-day[data-trips] {
-    background: #f8bbd0;
-    border-left: 4px solid #e91e63;
-    color: #c2185b;
+.calendar-day.sunday.work-day[data-trips]:not([class*="work-day-trips-"]),
+.calendar-day.saturday.work-day[data-trips]:not([class*="work-day-trips-"]),
+.calendar-day.holiday.work-day[data-trips]:not([class*="work-day-trips-"]) {
+    background: #f8bbd0 !important;
+    border-left: 4px solid #e91e63 !important;
+    color: #c2185b !important;
 }
 
 .calendar-day.holiday-work {
