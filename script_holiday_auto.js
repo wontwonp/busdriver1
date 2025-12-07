@@ -536,6 +536,12 @@ class BusDriverApp {
         if (record) {
             if (record.status === 'work') {
                 dayElement.classList.add('work-day');
+                // 편도수에 따라 다른 클래스 추가
+                const trips = record.trips || 0;
+                if (trips > 0) {
+                    dayElement.classList.add(`work-day-trips-${trips}`);
+                    dayElement.setAttribute('data-trips', trips);
+                }
             } else if (record.status === 'off') {
                 dayElement.classList.add('off-day');
             }
