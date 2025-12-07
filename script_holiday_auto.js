@@ -10,14 +10,6 @@ class BusDriverApp {
         // 한국 공휴일 데이터
         this.holidays = this.getKoreanHolidays();
         
-        // 터치 스와이프를 위한 변수들
-        this.touchStartX = 0;
-        this.touchEndX = 0;
-        this.minSwipeDistance = 80; // 최소 스와이프 거리 (세로 스크롤 고려하여 조정)
-        this.isDragging = false;
-        this.dragOffset = 0;
-        this.currentPageIndex = 1; // 현재 페이지 인덱스 (0: 이전달, 1: 현재달, 2: 다음달)
-        
         this.init();
     }
 
@@ -101,96 +93,6 @@ class BusDriverApp {
             this.goToNextMonth();
         });
 
-        // 통합된 스와이프 이벤트 (터치 + 마우스)
-        const calendarWrapper = document.querySelector('.calendar-wrapper');
-        
-        // 시작 이벤트 (터치 또는 마우스)
-        const handleStart = (clientX, clientY) => {
-            this.touchStartX = clientX;
-            this.touchStartY = clientY;
-            this.isDragging = false; // 초기에는 false로 시작
-            this.dragOffset = 0;
-            this.startTime = Date.now();
-        };
-
-        // 이동 이벤트
-        const handleMove = (clientX, clientY) => {
-            if (!this.touchStartX) return;
-            
-            const deltaX = clientX - this.touchStartX;
-            const deltaY = clientY - this.touchStartY;
-            
-            // 가로 움직임이 세로 움직임보다 크고, 최소 거리 이상일 때만 스와이프 시작
-            if (!this.isDragging && Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 20) {
-                this.isDragging = true;
-                document.getElementById('calendarPages').classList.add('dragging');
-                document.body.style.userSelect = 'none';
-            }
-            
-            if (this.isDragging) {
-                this.dragOffset = deltaX;
-                this.updateDragPosition();
-            }
-        };
-
-        // 종료 이벤트
-        const handleEnd = (clientX) => {
-            if (!this.isDragging) return;
-            
-            this.touchEndX = clientX;
-            this.isDragging = false;
-            document.getElementById('calendarPages').classList.remove('dragging');
-            document.body.style.userSelect = '';
-            this.handleSwipeEnd();
-        };
-
-        // 터치 이벤트
-        calendarWrapper.addEventListener('touchstart', (e) => {
-            handleStart(e.touches[0].clientX, e.touches[0].clientY);
-        }, { passive: true });
-
-        calendarWrapper.addEventListener('touchmove', (e) => {
-            if (this.isDragging) {
-                e.preventDefault();
-            }
-            handleMove(e.touches[0].clientX, e.touches[0].clientY);
-        }, { passive: false });
-
-        calendarWrapper.addEventListener('touchend', (e) => {
-            if (this.isDragging) {
-                e.preventDefault();
-            }
-            handleEnd(e.changedTouches[0].clientX);
-        }, { passive: false });
-
-        // 마우스 이벤트
-        calendarWrapper.addEventListener('mousedown', (e) => {
-            handleStart(e.clientX, e.clientY);
-        });
-
-        calendarWrapper.addEventListener('mousemove', (e) => {
-            if (this.isDragging) {
-                e.preventDefault();
-            }
-            handleMove(e.clientX, e.clientY);
-        });
-
-        calendarWrapper.addEventListener('mouseup', (e) => {
-            if (this.isDragging) {
-                e.preventDefault();
-            }
-            handleEnd(e.clientX);
-        });
-
-        // 마우스가 캘린더 밖으로 나갔을 때 처리
-        document.addEventListener('mouseup', () => {
-            if (this.isDragging) {
-                this.isDragging = false;
-                document.getElementById('calendarPages').classList.remove('dragging');
-                document.body.style.userSelect = '';
-                this.handleSwipeEnd();
-            }
-        });
 
         // 설정 버튼
         document.getElementById('settingsBtn').addEventListener('click', () => {
@@ -296,67 +198,6 @@ class BusDriverApp {
     }
 
 
-    // 드래그 위치 업데이트
-    updateDragPosition() {
-        const calendarPages = document.getElementById('calendarPages');
-        const wrapper = document.querySelector('.calendar-wrapper');
-        
-        if (!wrapper || !calendarPages) return;
-        
-        // 드래그 중에는 이전/다음 달이 보이도록 전체 범위에서 이동
-        const dragPercent = (this.dragOffset / wrapper.offsetWidth) * 100;
-        const totalTransform = -33.333 + dragPercent; // 중앙에서 시작해서 드래그만큼 이동
-        
-        // 드래그 범위 제한 (너무 멀리 가지 않도록)
-        const clampedTransform = Math.max(-66.666, Math.min(0, totalTransform));
-        
-        calendarPages.style.transform = `translateX(${clampedTransform}%)`;
-    }
-
-    // 스와이프 종료 처리
-    handleSwipeEnd() {
-        const calendarPages = document.getElementById('calendarPages');
-        const swipeThreshold = this.minSwipeDistance;
-        const velocityThreshold = 0.3; // 속도 임계값
-        
-        // 스와이프 속도 계산
-        const swipeTime = Date.now() - (this.startTime || Date.now());
-        const velocity = Math.abs(this.dragOffset) / Math.max(swipeTime, 1);
-        
-        // 거리 또는 속도 기준으로 스와이프 판단
-        const shouldSwipe = Math.abs(this.dragOffset) > swipeThreshold || velocity > velocityThreshold;
-        
-        if (shouldSwipe) {
-            if (this.dragOffset > 0) {
-                // 오른쪽으로 스와이프 (이전 달)
-                this.goToPreviousMonth();
-            } else {
-                // 왼쪽으로 스와이프 (다음 달)
-                this.goToNextMonth();
-            }
-        } else {
-            // 탄성 애니메이션으로 원래 위치로 복귀
-            this.snapToCurrentPageWithBounce();
-        }
-    }
-
-    // 현재 페이지로 되돌리기
-    snapToCurrentPage() {
-        const calendarPages = document.getElementById('calendarPages');
-        calendarPages.style.transform = 'translateX(-33.333%)';
-    }
-
-    // 탄성 애니메이션으로 원래 위치로 복귀
-    snapToCurrentPageWithBounce() {
-        const calendarPages = document.getElementById('calendarPages');
-        calendarPages.style.transition = 'transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-        calendarPages.style.transform = 'translateX(-33.333%)';
-        
-        // 애니메이션 완료 후 기본 transition 복원
-        setTimeout(() => {
-            calendarPages.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
-        }, 400);
-    }
 
 
     // 숫자 포맷팅 설정
