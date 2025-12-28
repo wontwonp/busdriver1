@@ -1,0 +1,681 @@
+.attendance-page {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 배너 섹션 */
+.attendance-banner {
+  background: #000000;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  position: relative;
+  z-index: 2;
+}
+
+.banner-text {
+  color: #FFD700;
+  flex: 1;
+  text-align: center;
+}
+
+.banner-text h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 2px 0;
+  color: #FFD700;
+}
+
+.banner-text p {
+  font-size: 14px;
+  margin: 0;
+  color: #fff;
+  opacity: 0.9;
+}
+
+.banner-image {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.phone-mockup {
+  width: 60px;
+  height: 90px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  border-radius: 6px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.stamp-collection {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  width: 100%;
+}
+
+.stamp-item {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.stamp-item.checked {
+  background: #4caf50;
+  color: #fff;
+  border-color: #4caf50;
+}
+
+.stamp-item.coin {
+  background: #FFD700;
+  color: #000;
+  border-color: #FFD700;
+}
+
+.stamp-icon {
+  font-size: 22px;
+  animation: stamp 2s ease-in-out infinite;
+}
+
+@keyframes stamp {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+/* 현재 시간/날짜 표시 */
+.attendance-info {
+  background: #000000;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.time-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.current-time {
+  background: #FFD700;
+  color: #000;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.separator {
+  color: #888;
+  font-size: 16px;
+}
+
+.current-date {
+  color: #FFD700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.current-date:hover {
+  color: #FFA500;
+}
+
+.info-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #888;
+  font-size: 14px;
+}
+
+.info-icon {
+  font-size: 16px;
+}
+
+/* 캘린더 네비게이션 */
+.calendar-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #000000;
+  border: 1px solid #333;
+  border-radius: 10px;
+}
+
+.nav-btn {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #FFD700;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.nav-btn:hover {
+  background: #FFD700;
+  color: #000;
+  border-color: #FFD700;
+  transform: translateY(-2px);
+}
+
+.month-year {
+  color: #FFD700;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* 캘린더 그리드 */
+.attendance-calendar {
+  background: #000000;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.weekday {
+  text-align: center;
+  color: #FFD700;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.calendar-day {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 12px 8px;
+  text-align: center;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.calendar-day.empty {
+  background: transparent;
+  border: none;
+  cursor: default;
+}
+
+.calendar-day:hover:not(.empty) {
+  background: #2a2a2a;
+  border-color: #FFD700;
+  transform: translateY(-2px);
+}
+
+.calendar-day.today {
+  border: 2px solid #FFD700;
+  background: #1a1a1a;
+}
+
+.calendar-day.sunday .day-number {
+  color: #ff4444;
+}
+
+.calendar-day.saturday .day-number {
+  color: #4a9eff;
+}
+
+.calendar-day.attended {
+  background: #1a1a1a;
+  border-color: #FFD700;
+}
+
+.calendar-day.attended .day-number {
+  color: #fff;
+  font-weight: 700;
+}
+
+.day-number {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.day-points {
+  background: rgba(255, 215, 0, 0.3);
+  color: #FFD700;
+  padding: 3px 6px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+.day-attendance-count {
+  background: rgba(255, 215, 0, 0.2);
+  color: #FFD700;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+/* 출석체크 버튼 */
+.attendance-button-section {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.btn-attendance {
+  background: #FFD700;
+  border: none;
+  color: #000;
+  padding: 15px 50px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.btn-attendance:hover:not(.disabled) {
+  background: #FFA500;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+}
+
+.btn-attendance.disabled {
+  background: #333;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-attendance:disabled {
+  background: #333;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-attendance:active {
+  transform: translateY(-1px);
+}
+
+/* 인사말 모달 */
+.greeting-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.greeting-modal {
+  background: #000000;
+  border: 1px solid #333;
+  border-radius: 15px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #333;
+}
+
+.modal-header h3 {
+  color: #FFD700;
+  margin: 0;
+  font-size: 20px;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 32px;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.close-btn:hover {
+  color: #FFD700;
+}
+
+.modal-content {
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* 출석체크 댓글 섹션 */
+.attendance-comments-section {
+  background: #000000;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 30px;
+}
+
+.comments-title {
+  color: #FFD700;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #333;
+}
+
+.comments-list {
+  margin-bottom: 15px;
+}
+
+.no-comments {
+  color: #888;
+  text-align: center;
+  padding: 30px 15px;
+  font-size: 13px;
+}
+
+.comment-item {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  transition: all 0.3s;
+}
+
+.comment-item:hover {
+  border-color: #FFD700;
+  background: #2a2a2a;
+}
+
+.comment-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.comment-level-image {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.comment-nickname {
+  color: #FFD700;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.comment-content {
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+
+.comment-time {
+  color: #888;
+  font-size: 11px;
+  text-align: right;
+}
+
+/* 댓글 페이지네이션 */
+.comments-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #333;
+}
+
+.comments-page-btn {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #FFD700;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.comments-page-btn:hover:not(:disabled) {
+  background: #FFD700;
+  color: #000;
+  border-color: #FFD700;
+}
+
+.comments-page-btn:disabled {
+  background: #0a0a0a;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.comments-page-number {
+  color: #FFD700;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 0 10px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .attendance-page {
+    padding: 10px;
+  }
+
+  .banner-content {
+    flex-direction: column;
+    text-align: center;
+  }
+ 
+  .banner-text h1 {
+    font-size: 20px;
+  }
+ 
+  .banner-text p {
+    font-size: 13px;
+  }
+
+  .phone-mockup {
+    width: 100px;
+    height: 150px;
+    margin-top: 15px;
+  }
+
+  .stamp-item {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .stamp-icon {
+    font-size: 35px;
+  }
+
+  .attendance-calendar {
+    padding: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .calendar-header {
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .weekday {
+    font-size: 12px;
+    padding: 8px 4px;
+  }
+
+  .calendar-grid {
+    gap: 5px;
+    min-width: 100%;
+  }
+
+  .calendar-day {
+    height: 50px;
+    padding: 8px 4px;
+    font-size: 12px;
+    box-sizing: border-box;
+  }
+
+  .day-number {
+    font-size: 12px;
+    margin-bottom: 3px;
+  }
+
+  .day-points {
+    font-size: 9px;
+    padding: 2px 4px;
+    margin-top: 2px;
+  }
+
+  .day-attendance-count {
+    font-size: 9px;
+    padding: 2px 4px;
+    margin-top: 2px;
+  }
+
+  .btn-attendance {
+    padding: 15px 40px;
+    font-size: 18px;
+  }
+
+
+  .attendance-comments-section {
+    padding: 12px;
+    margin-top: 20px;
+  }
+
+  .comments-title {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .comment-item {
+    padding: 6px 10px;
+    margin-bottom: 6px;
+  }
+
+  .comment-level-image {
+    width: 25px;
+    height: 25px;
+  }
+
+  .comment-nickname {
+    font-size: 12px;
+  }
+
+  .comment-content {
+    font-size: 12px;
+    margin-bottom: 3px;
+  }
+
+  .comment-time {
+    font-size: 10px;
+  }
+
+  .comments-pagination {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  .comments-page-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .comments-page-number {
+    font-size: 12px;
+    padding: 0 8px;
+  }
+}

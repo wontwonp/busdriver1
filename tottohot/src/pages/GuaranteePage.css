@@ -1,0 +1,486 @@
+/* 보증업체 카드 목록 */
+.page-content .guarantee-list,
+.guarantee-list {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 15px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.page-content .guarantee-list > *,
+.guarantee-list > * {
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 1200px) {
+  .page-content .guarantee-list,
+  .guarantee-list {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-content .guarantee-list,
+  .guarantee-list {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  
+  .guarantee-card {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .guarantee-card-banner {
+    height: 250px !important;
+    overflow: hidden !important;
+  }
+  
+  .guarantee-card-banner img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+  }
+}
+
+.guarantee-card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 100%;
+  max-width: 100%;
+}
+
+.guarantee-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 카드 상단 배너 */
+.guarantee-card-banner {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+
+.guarantee-card-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 카드 하단 정보 블록 */
+.guarantee-card-info {
+  padding: 0;
+  background: #fff;
+}
+
+.info-row {
+  display: flex;
+  border-bottom: 1px solid #eee;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  width: 33.33%;
+  background: #FFD700;
+  color: #fff !important;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.info-value {
+  width: 66.67%;
+  background: #fff;
+  color: #000 !important;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid #eee;
+}
+
+.info-value.join-code {
+  color: #000;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.extend-buttons-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 !important;
+}
+
+.btn-extend {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #333;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn-extend:hover {
+  background: #FFD700;
+  border-color: #FFD700;
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+/* 블로그 모달 */
+.blog-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.blog-modal-content {
+  background: #fff;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.blog-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid #eee;
+  background: #f8f9fa;
+  border-radius: 10px 10px 0 0;
+}
+
+.blog-modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+  font-weight: 700;
+}
+
+.blog-modal-close {
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.blog-modal-close:hover {
+  color: #333;
+}
+
+.blog-modal-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 25px;
+  background: #fff;
+}
+
+/* 블로그 콘텐츠 영역 */
+.blog-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.blog-main-image {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.blog-main-img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  max-height: 400px;
+  display: block;
+}
+
+.blog-content-text {
+  color: #333;
+  font-size: 16px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+.blog-images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.blog-image-item {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  background: #f8f9fa;
+}
+
+.blog-sub-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.blog-empty-message {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  font-size: 16px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+.blog-modal-footer {
+  display: flex;
+  gap: 10px;
+  padding: 15px 25px;
+  border-top: 1px solid #eee;
+  background: #f8f9fa;
+  border-radius: 0 0 10px 10px;
+  justify-content: flex-end;
+}
+
+.btn-open-external {
+  padding: 10px 20px;
+  background: #FFD700;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-open-external:hover {
+  background: #FFA500;
+}
+
+.btn-close-modal {
+  padding: 10px 20px;
+  background: #ddd;
+  border: none;
+  border-radius: 5px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-close-modal:hover {
+  background: #ccc;
+}
+
+/* 반응형 디자인 - 모바일 */
+@media (max-width: 768px) {
+  .blog-modal-content {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .blog-modal-header {
+    padding: 15px 20px;
+  }
+
+  .blog-modal-header h2 {
+    font-size: 18px;
+  }
+
+  .blog-modal-footer {
+    padding: 12px 20px;
+    flex-direction: column;
+  }
+
+  .btn-open-external,
+  .btn-close-modal {
+    width: 100%;
+  }
+
+  .info-label {
+    width: 35%;
+    padding: 12px 10px;
+    font-size: 12px;
+  }
+
+  .info-value {
+    width: 65%;
+    padding: 12px 10px;
+    font-size: 12px;
+  }
+}
+
+/* 상세보기 모달 */
+.shop-detail-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.shop-detail-modal-content {
+  background: #000000;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #333;
+  overflow: hidden;
+}
+
+.shop-detail-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #333;
+  background: #1a1a1a;
+}
+
+.shop-detail-modal-header h2 {
+  margin: 0;
+  color: #FFD700;
+  font-size: 20px;
+}
+
+.shop-detail-modal-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 32px;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s;
+  line-height: 1;
+}
+
+.shop-detail-modal-close:hover {
+  color: #FFD700;
+}
+
+.shop-detail-modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  background: #000000;
+  color: #fff;
+}
+
+.shop-detail-modal-body label {
+  color: #fff;
+}
+
+.shop-detail-modal-body input,
+.shop-detail-modal-body select,
+.shop-detail-modal-body textarea {
+  background: #1a1a1a !important;
+  border: 1px solid #444 !important;
+  color: #fff !important;
+}
+
+.shop-detail-modal-body input::placeholder,
+.shop-detail-modal-body textarea::placeholder {
+  color: #888 !important;
+}
+
+.shop-detail-modal-body select option {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.shop-detail-modal-body label {
+  color: #fff !important;
+}
+
+@media (max-width: 768px) {
+  .shop-detail-modal-content {
+    width: 95%;
+    max-height: 95vh;
+  }
+}

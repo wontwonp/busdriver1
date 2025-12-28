@@ -1,0 +1,76 @@
+.board-guide-section {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 2px solid #333;
+}
+
+.board-guide-item {
+  margin-bottom: 40px;
+}
+
+.board-guide-title {
+  margin-bottom: 25px;
+}
+
+.board-guide-content {
+  background: #1a1a1a;
+  padding: 25px;
+  border-radius: 8px;
+  color: #fff;
+  line-height: 1.8;
+}
+
+.guide-section {
+  margin-bottom: 25px;
+}
+
+.guide-section:last-child {
+  margin-bottom: 0;
+}
+
+.guide-section-with-number {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.guide-number-circle {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  background: #39ff14;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.guide-section-content {
+  flex: 1;
+}
+
+.guide-section-title {
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.guide-section-text {
+  color: #ccc;
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.guide-section-text div {
+  margin-bottom: 8px;
+}
+
+.guide-section-text div:last-child {
+  margin-bottom: 0;
+}

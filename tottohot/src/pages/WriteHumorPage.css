@@ -1,0 +1,353 @@
+.write-humor-page {
+  min-height: 100vh;
+  background: #000;
+  padding: 20px 0;
+}
+
+.write-header {
+  margin-bottom: 30px;
+}
+
+.write-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  text-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14;
+}
+
+.write-form {
+  background: #111;
+  border: 1px solid #39ff14;
+  border-radius: 8px;
+  padding: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.error-message {
+  background: #ff4444;
+  color: #fff;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-label-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.required-mark {
+  color: #ed1c24;
+  font-weight: 700;
+}
+
+.title-input {
+  width: 100%;
+  padding: 12px;
+  background: #000;
+  border: 1px solid #39ff14;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.title-input:focus {
+  outline: none;
+  border-color: #2ee00f;
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+}
+
+.warning-text {
+  color: #ed1c24;
+  font-size: 12px;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.content-textarea {
+  width: 100%;
+  padding: 12px;
+  background: #000;
+  border: 1px solid #39ff14;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 300px;
+  box-sizing: border-box;
+}
+
+.content-textarea:focus {
+  outline: none;
+  border-color: #2ee00f;
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+}
+
+.editor-toolbar {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 10px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+.toolbar-btn {
+  background: #111;
+  border: 1px solid #39ff14;
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: #39ff14;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.toolbar-btn:hover {
+  background: rgba(57, 255, 20, 0.1);
+  box-shadow: 0 0 5px rgba(57, 255, 20, 0.3);
+}
+
+.toolbar-count {
+  font-size: 12px;
+  color: #fff;
+}
+
+.file-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.add-file-btn,
+.remove-file-btn,
+.select-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+}
+
+.add-file-btn {
+  background: #0066cc;
+  color: #fff;
+}
+
+.add-file-btn:hover {
+  background: #0052a3;
+}
+
+.remove-file-btn {
+  background: #ed1c24;
+  color: #fff;
+}
+
+.remove-file-btn:hover:not(:disabled) {
+  background: #ff3333;
+}
+
+.remove-file-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.select-btn {
+  background: #1a1a1a;
+  color: #fff;
+  border: 1px solid #39ff14;
+}
+
+.select-btn:hover {
+  background: rgba(57, 255, 20, 0.1);
+}
+
+.file-count {
+  color: #fff;
+  font-size: 14px;
+  padding: 8px 12px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+.image-position-options {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.radio-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #ed1c24;
+}
+
+.radio-option span {
+  color: #fff;
+  font-size: 14px;
+}
+
+.image-instruction {
+  color: #ccc;
+  font-size: 12px;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.image-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.add-image-btn,
+.remove-image-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+}
+
+.add-image-btn {
+  background: #0066cc;
+  color: #fff;
+}
+
+.add-image-btn:hover {
+  background: #0052a3;
+}
+
+.remove-image-btn {
+  background: #ed1c24;
+  color: #fff;
+}
+
+.remove-image-btn:hover:not(:disabled) {
+  background: #ff3333;
+}
+
+.remove-image-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.image-count {
+  color: #fff;
+  font-size: 14px;
+  padding: 8px 12px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #333;
+}
+
+.cancel-btn {
+  padding: 12px 24px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.cancel-btn:hover {
+  background: #e0e0e0;
+}
+
+.submit-btn {
+  padding: 12px 24px;
+  background: #ed1c24;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 0 10px rgba(237, 28, 36, 0.5);
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: #ff3333;
+  box-shadow: 0 0 15px rgba(237, 28, 36, 0.8);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .write-form {
+    padding: 20px;
+  }
+
+  .file-controls,
+  .image-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-file-btn,
+  .remove-file-btn,
+  .select-btn,
+  .add-image-btn,
+  .remove-image-btn {
+    width: 100%;
+  }
+}
+
+
+

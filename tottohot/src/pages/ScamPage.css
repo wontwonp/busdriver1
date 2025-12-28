@@ -1,0 +1,210 @@
+.scam-search {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.scam-search .search-input {
+  flex: 1;
+  background: #000000;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.scam-search .search-btn {
+  background: #FFD700;
+  border: none;
+  color: #000;
+  padding: 12px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.scam-table {
+  background: #000000;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.scam-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.scam-table th,
+.scam-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #444;
+}
+
+.scam-table th {
+  background: #0a0a0a;
+  color: #000;
+  font-weight: 600;
+}
+
+.scam-table td {
+  color: #ccc;
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-badge.confirmed {
+  background: #ef4444;
+  color: #fff;
+}
+
+.status-badge.pending {
+  background: #f59e0b;
+  color: #fff;
+}
+
+.report-section {
+  background: #000000;
+  border-radius: 10px;
+  padding: 30px;
+  margin-top: 30px;
+}
+
+.report-section h2 {
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.report-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.report-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.report-form label {
+  color: #fff;
+  font-weight: 600;
+}
+
+.report-form input,
+.report-form textarea {
+  background: #0a0a0a;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.report-form textarea {
+  resize: vertical;
+}
+
+.btn-submit {
+  background: #FFD700;
+  border: none;
+  color: #000;
+  padding: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.btn-submit:hover {
+  background: #FFA500;
+}
+
+.scam-search {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+.btn-report {
+  background: #FFD700;
+  border: none;
+  color: #000;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.btn-report:hover {
+  background: #FFA500;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.report-form-modal {
+  background: #0a0a0a;
+  border-radius: 10px;
+  padding: 30px;
+  max-width: 600px;
+  width: 90%;
+}
+
+.report-form-modal h2 {
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.btn-cancel {
+  background: #6c757d;
+  border: none;
+  color: #000;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-cancel:hover {
+  background: #5a6268;
+}
+
+.loading {
+  text-align: center;
+  padding: 50px;
+  color: #888;
+}
+
+
+

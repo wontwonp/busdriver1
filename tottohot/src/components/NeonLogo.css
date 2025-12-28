@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@600;700&display=swap');
+
+.neon-logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 60px;
+  width: 100%;
+}
+
+.logo-korean {
+  font-family: 'Rajdhani', 'Arial', sans-serif;
+  color: #fff;
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+  font-weight: 700;
+  text-shadow: 0 0 20px rgba(57, 255, 20, 0.8);
+  margin-bottom: 0.5rem;
+  animation: neon-green 1s ease infinite;
+  -moz-animation: neon-green 1s ease infinite;
+  -webkit-animation: neon-green 1s ease infinite;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-english {
+  font-family: 'Orbitron', 'Arial', sans-serif;
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 0 20px rgba(57, 255, 20, 0.8);
+  animation: flux-green 2s linear infinite;
+  -moz-animation: flux-green 2s linear infinite;
+  -webkit-animation: flux-green 2s linear infinite;
+  -o-animation: flux-green 2s linear infinite;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes neon-green {
+  0%,
+  100% {
+    text-shadow: 0 0 0.3rem #39ff14, 0 0 0.5rem #39ff14, 0 0 1.2rem #39ff14, 0 0 1.2rem #39ff14, 0 0 .15rem #fff, .2rem .2rem .05rem #2ee00f;
+    color: #fff;
+  }
+  50% {
+    text-shadow: 0 0 .15rem #2ee00f, 0 0 .3rem #2ee00f, 0 0 .7rem #2ee00f, 0 0 .7rem #2ee00f, 0 0 .08rem #2ee00f, .2rem .2rem .05rem #1a8a0a;
+    color: #39ff14;
+  }
+}
+
+@keyframes flux-green {
+  0%,
+  100% {
+    text-shadow: 0 0 0.3rem #39ff14, 0 0 0.5rem #39ff14, 0 0 1.2rem #39ff14, 0 0 1.2rem #39ff14, 0 0 .15rem #fff, .2rem .2rem .05rem #2ee00f;
+    color: #fff;
+  }
+  50% {
+    text-shadow: 0 0 .15rem #2ee00f, 0 0 .3rem #2ee00f, 0 0 .7rem #2ee00f, 0 0 .7rem #2ee00f, 0 0 .08rem #2ee00f, .2rem .2rem .05rem #1a8a0a;
+    color: #39ff14;
+  }
+}
+
+.logo-korean span,
+.logo-english span {
+  display: inline-block;
+  opacity: 1;
+  min-width: 0.5em;
+  text-align: center;
+  will-change: transform, opacity;
+}
+
+@keyframes letterAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .logo-korean {
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+  }
+  
+  .logo-english {
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+  }
+}
+

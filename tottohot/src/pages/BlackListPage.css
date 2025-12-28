@@ -1,0 +1,196 @@
+.black-list-page {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.black-list-page .board-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.black-list-page .page-title {
+  color: #00ff00;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.black-list-notice {
+  background: #2a2a2a;
+  border-left: 4px solid #ffaa00;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.notice-content {
+  color: #fff;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+
+.pagination-info {
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.list-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.write-btn {
+  padding: 8px 20px;
+  background: #00ff00;
+  color: #000;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.write-btn:hover {
+  background: #00cc00;
+}
+
+.posts-table {
+  background: #1a1a1a;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.posts-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.posts-table thead {
+  background: #2a2a2a;
+}
+
+.posts-table th {
+  padding: 15px;
+  text-align: left;
+  color: #00ff00;
+  font-weight: bold;
+  border-bottom: 2px solid #00ff00;
+}
+
+.posts-table td {
+  padding: 15px;
+  color: #fff;
+  border-bottom: 1px solid #333;
+}
+
+.posts-table tbody tr:hover {
+  background: #2a2a2a;
+}
+
+.col-num {
+  width: 80px;
+  text-align: center;
+}
+
+.col-title {
+  width: auto;
+}
+
+.col-title a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.col-title a:hover {
+  color: #00ff00;
+}
+
+.secret-icon {
+  color: #00ff00;
+}
+
+.col-author {
+  width: 120px;
+  text-align: center;
+}
+
+.col-date {
+  width: 150px;
+  text-align: center;
+}
+
+.col-status {
+  width: 100px;
+  text-align: center;
+}
+
+.status-answered {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.status-pending {
+  color: #ffaa00;
+  font-weight: bold;
+}
+
+.loading-cell,
+.empty-cell {
+  text-align: center;
+  padding: 40px !important;
+  color: #888;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top: 30px;
+}
+
+.page-btn {
+  padding: 8px 15px;
+  background: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.page-btn:hover:not(:disabled) {
+  background: #3a3a3a;
+  border-color: #00ff00;
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-btn.active {
+  background: #00ff00;
+  color: #000;
+  border-color: #00ff00;
+  font-weight: bold;
+}
+
+.page-ellipsis {
+  color: #888;
+  padding: 0 5px;
+}

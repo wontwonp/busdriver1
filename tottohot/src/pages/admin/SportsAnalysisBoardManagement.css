@@ -1,0 +1,406 @@
+.sports-analysis-board-management {
+  padding: 20px;
+}
+
+.sports-analysis-board-management-loading {
+  padding: 40px;
+  text-align: center;
+  color: #fff;
+  font-size: 18px;
+}
+
+.management-header {
+  margin-bottom: 20px;
+}
+
+.management-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.filter-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.category-filter {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.category-btn {
+  padding: 8px 16px;
+  background: #2a2a2a;
+  color: #ffffff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.category-btn:hover {
+  background: #333;
+  border-color: #39ff14;
+}
+
+.category-btn.active {
+  background: #39ff14;
+  color: #000;
+  border-color: #39ff14;
+  font-weight: 600;
+}
+
+.search-section {
+  flex: 1;
+  max-width: 500px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  padding: 8px 12px;
+  background: #2a2a2a;
+  color: #ffffff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #39ff14;
+}
+
+.match-management-btn {
+  padding: 8px 16px;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.match-management-btn:hover {
+  background: #357abd;
+  box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+}
+
+.posts-table-container {
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.posts-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.posts-table thead {
+  background: #000;
+  border-bottom: 2px solid #39ff14;
+}
+
+.posts-table th {
+  padding: 12px;
+  text-align: left;
+  color: #39ff14;
+  font-weight: 600;
+  font-size: 14px;
+  border-right: 1px solid #444;
+}
+
+.posts-table th:last-child {
+  border-right: none;
+}
+
+.posts-table tbody tr {
+  border-bottom: 1px solid #333;
+  transition: background 0.2s;
+}
+
+.posts-table tbody tr:hover {
+  background: #2a2a2a;
+}
+
+.posts-table tbody tr.notice-row {
+  background: #1a3a1a;
+}
+
+.posts-table td {
+  padding: 12px;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.title-cell {
+  max-width: 300px;
+}
+
+.post-title-link {
+  color: #ffffff;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.post-title-link:hover {
+  color: #39ff14;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.badge-notice {
+  background: #ffc107;
+  color: #000;
+}
+
+.badge-best {
+  background: #ff6b6b;
+  color: #fff;
+}
+
+.badge-success {
+  background: #4CAF50;
+  color: #fff;
+}
+
+.badge-warning {
+  background: #ff9800;
+  color: #fff;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.action-buttons button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.btn-view {
+  background: #4a90e2;
+  color: white;
+}
+
+.btn-view:hover {
+  background: #357abd;
+}
+
+.btn-notice {
+  background: #ffc107;
+  color: #000;
+}
+
+.btn-notice:hover {
+  background: #e0a800;
+}
+
+.btn-best {
+  background: #ff6b6b;
+  color: white;
+}
+
+.btn-best:hover {
+  background: #ff5252;
+}
+
+.btn-approve {
+  background: #4CAF50;
+  color: white;
+}
+
+.btn-approve:hover {
+  background: #45a049;
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #c82333;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  padding: 8px 16px;
+  background: #2a2a2a;
+  color: #ffffff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #333;
+  border-color: #39ff14;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+/* 모달 스타일 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #1a1a1a;
+  border: 2px solid #39ff14;
+  border-radius: 12px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #39ff14;
+}
+
+.modal-header h2 {
+  color: #fff;
+  margin: 0;
+  font-size: 20px;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s;
+}
+
+.modal-close:hover {
+  color: #39ff14;
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.detail-item {
+  margin-bottom: 15px;
+}
+
+.detail-item label {
+  display: block;
+  color: #39ff14;
+  font-weight: 600;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.detail-item span {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.detail-content {
+  color: #ffffff;
+  line-height: 1.6;
+  padding: 15px;
+  background: #2a2a2a;
+  border-radius: 6px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.picks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pick-item {
+  padding: 10px;
+  background: #2a2a2a;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.pick-item div {
+  margin-bottom: 5px;
+}
+
+.pick-item div:last-child {
+  margin-bottom: 0;
+}

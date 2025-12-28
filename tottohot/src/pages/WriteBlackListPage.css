@@ -1,0 +1,118 @@
+.write-black-list-page {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.write-black-list-page .board-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.write-black-list-page .page-title {
+  color: #00ff00;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.black-list-form {
+  background: #1a1a1a;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.form-section {
+  margin-bottom: 25px;
+}
+
+.form-label {
+  display: block;
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.form-textarea,
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 12px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.form-select {
+  cursor: pointer;
+}
+
+.form-select option {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.form-textarea:focus,
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #00ff00;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.error-message {
+  background: #ff4444;
+  color: #fff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+.btn-cancel,
+.btn-submit {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-cancel {
+  background: #444;
+  color: #fff;
+}
+
+.btn-cancel:hover {
+  background: #555;
+}
+
+.btn-submit {
+  background: #00ff00;
+  color: #000;
+  font-weight: bold;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: #00cc00;
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

@@ -1,0 +1,134 @@
+.ranking-management {
+  background: #111;
+  padding: 32px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  color: #fff;
+}
+
+.admin-page-title {
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.ranking-management select {
+  padding: 8px 16px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #000;
+  color: #fff;
+}
+
+.ranking-form {
+  margin-top: 24px;
+}
+
+.ranking-table {
+  overflow-x: auto;
+  margin-bottom: 24px;
+}
+
+.ranking-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #000;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ranking-table th,
+.ranking-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #333;
+}
+
+.ranking-table th {
+  background: #1a1a1a;
+  font-weight: 600;
+  color: #fff;
+}
+
+.ranking-table td {
+  color: #fff;
+}
+
+.ranking-table tbody tr:hover {
+  background: #1a1a1a;
+}
+
+.ranking-table input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #000;
+  color: #fff;
+}
+
+.ranking-display {
+  margin-top: 24px;
+}
+
+.ranking-display .edit-btn {
+  margin-top: 16px;
+  padding: 10px 20px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.ranking-display .edit-btn:hover {
+  background: #e0e0e0;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.form-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.form-actions button[type="submit"] {
+  background: #fff;
+  color: #000;
+}
+
+.form-actions button[type="submit"]:hover {
+  background: #e0e0e0;
+}
+
+.form-actions button[type="button"] {
+  background: #333;
+  color: #fff;
+}
+
+.form-actions button[type="button"]:hover {
+  background: #555;
+}
+
+.loading {
+  padding: 40px;
+  text-align: center;
+  color: #ccc;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
