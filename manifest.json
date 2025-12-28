@@ -1,6 +1,6 @@
 {
-  "name": "버스기사 업무 기록",
-  "short_name": "버스기사 기록",
+  "name": "운행기록",
+  "short_name": "운행기록",
   "description": "버스기사의 일일 업무를 기록하고 월급을 계산할 수 있는 앱",
   "start_url": "./index.html",
   "display": "standalone",

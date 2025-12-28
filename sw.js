@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bus-driver-app-v1';
+const CACHE_NAME = 'bus-driver-app-v2';
 const urlsToCache = [
   './',
   './index.html',

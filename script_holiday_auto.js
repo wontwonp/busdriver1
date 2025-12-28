@@ -1,6 +1,7 @@
 ﻿// 앱 상태 관리
 class BusDriverApp {
     constructor() {
+        // 항상 오늘 날짜로 설정
         this.currentDate = new Date();
         this.records = this.loadRecords();
         this.settings = this.loadSettings();
@@ -9,37 +10,48 @@ class BusDriverApp {
         // 한국 공휴일 데이터
         this.holidays = this.getKoreanHolidays();
         
-        // 터치 스와이프를 위한 변수들
-        this.touchStartX = 0;
-        this.touchEndX = 0;
-        this.minSwipeDistance = 50; // 최소 스와이프 거리
-        
         this.init();
     }
 
     init() {
+        // 오늘 날짜로 강제 리셋
+        this.resetToToday();
         this.setupEventListeners();
         this.renderCalendar();
         this.updateMonthlySummary();
     }
 
+    // 오늘 날짜로 강제 리셋
+    resetToToday() {
+        this.currentDate = new Date();
+        console.log('오늘 날짜로 리셋:', this.currentDate.getFullYear() + '년 ' + (this.currentDate.getMonth() + 1) + '월');
+        
+        // 페이지 위치도 강제로 중앙으로 리셋
+        const calendarPages = document.getElementById('calendarPages');
+        if (calendarPages) {
+            calendarPages.style.transition = 'none';
+            calendarPages.style.transform = 'translateX(-33.333%)';
+        }
+    }
+
     // 한국 공휴일 데이터 가져오기
-    getKoreanHolidays() {
-        const currentYear = this.currentDate.getFullYear();
+    getKoreanHolidays(year = null) {
+        const targetYear = year || this.currentDate.getFullYear();
+        console.log('공휴일 데이터 생성 중 - 년도:', targetYear);
         const holidays = {};
         
         // 양력 공휴일
-        holidays[currentYear + '-01-01'] = '신정';
-        holidays[currentYear + '-03-01'] = '삼일절';
-        holidays[currentYear + '-05-05'] = '어린이날';
-        holidays[currentYear + '-06-06'] = '현충일';
-        holidays[currentYear + '-08-15'] = '광복절';
-        holidays[currentYear + '-10-03'] = '개천절';
-        holidays[currentYear + '-10-09'] = '한글날';
-        holidays[currentYear + '-12-25'] = '크리스마스';
+        holidays[targetYear + '-01-01'] = '신정';
+        holidays[targetYear + '-03-01'] = '삼일절';
+        holidays[targetYear + '-05-05'] = '어린이날';
+        holidays[targetYear + '-06-06'] = '현충일';
+        holidays[targetYear + '-08-15'] = '광복절';
+        holidays[targetYear + '-10-03'] = '개천절';
+        holidays[targetYear + '-10-09'] = '한글날';
+        holidays[targetYear + '-12-25'] = '크리스마스';
         
         // 음력 공휴일 (2024-2025년 기준)
-        if (currentYear === 2024) {
+        if (targetYear === 2024) {
             holidays['2024-02-10'] = '설날';
             holidays['2024-02-11'] = '설날';
             holidays['2024-02-12'] = '설날';
@@ -48,7 +60,7 @@ class BusDriverApp {
             holidays['2024-09-16'] = '추석';
             holidays['2024-09-17'] = '추석';
             holidays['2024-09-18'] = '추석';
-        } else if (currentYear === 2025) {
+        } else if (targetYear === 2025) {
             holidays['2025-01-28'] = '설날';
             holidays['2025-01-29'] = '설날';
             holidays['2025-01-30'] = '설날';
@@ -65,7 +77,9 @@ class BusDriverApp {
     // 공휴일 확인
     isHoliday(date) {
         const dateKey = this.getDateKey(date);
-        return this.holidays[dateKey] || null;
+        const year = date.getFullYear();
+        const yearHolidays = this.getKoreanHolidays(year);
+        return yearHolidays[dateKey] || null;
     }
 
     // 이벤트 리스너 설정
@@ -79,48 +93,6 @@ class BusDriverApp {
             this.goToNextMonth();
         });
 
-        // 터치 이벤트 (스와이프)
-        const calendarContainer = document.querySelector('.calendar-container');
-        
-        calendarContainer.addEventListener('touchstart', (e) => {
-            this.touchStartX = e.touches[0].clientX;
-        }, { passive: true });
-
-        calendarContainer.addEventListener('touchend', (e) => {
-            this.touchEndX = e.changedTouches[0].clientX;
-            this.handleSwipe();
-        }, { passive: true });
-
-        // 마우스 이벤트 (드래그)
-        let isMouseDown = false;
-        let mouseStartX = 0;
-
-        calendarContainer.addEventListener('mousedown', (e) => {
-            isMouseDown = true;
-            mouseStartX = e.clientX;
-            e.preventDefault();
-        });
-
-        calendarContainer.addEventListener('mousemove', (e) => {
-            if (!isMouseDown) return;
-            e.preventDefault();
-        });
-
-        calendarContainer.addEventListener('mouseup', (e) => {
-            if (!isMouseDown) return;
-            isMouseDown = false;
-            
-            const mouseEndX = e.clientX;
-            const deltaX = mouseEndX - mouseStartX;
-            
-            if (Math.abs(deltaX) > this.minSwipeDistance) {
-                if (deltaX > 0) {
-                    this.goToPreviousMonth();
-                } else {
-                    this.goToNextMonth();
-                }
-            }
-        });
 
         // 설정 버튼
         document.getElementById('settingsBtn').addEventListener('click', () => {
@@ -156,19 +128,6 @@ class BusDriverApp {
             this.saveSettings();
         });
 
-        // 데이터 내보내기/가져오기
-        document.getElementById('exportData').addEventListener('click', () => {
-            this.exportData();
-        });
-
-        document.getElementById('importData').addEventListener('click', () => {
-            document.getElementById('fileInput').click();
-        });
-
-        document.getElementById('fileInput').addEventListener('change', (e) => {
-            this.importData(e);
-        });
-
         // 숫자 입력 필드에 콤마 포맷팅 추가
         this.setupNumberFormatting();
 
@@ -189,33 +148,57 @@ class BusDriverApp {
     // 이전 달로 이동
     goToPreviousMonth() {
         this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-        this.holidays = this.getKoreanHolidays();
+        console.log('이전 달로 이동:', this.currentDate.getFullYear() + '년 ' + (this.currentDate.getMonth() + 1) + '월');
         this.renderCalendar();
         this.updateMonthlySummary();
+        
+        // 부드러운 슬라이드 애니메이션
+        this.slideToMonth('previous');
     }
 
     // 다음 달로 이동
     goToNextMonth() {
         this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-        this.holidays = this.getKoreanHolidays();
+        console.log('다음 달로 이동:', this.currentDate.getFullYear() + '년 ' + (this.currentDate.getMonth() + 1) + '월');
         this.renderCalendar();
         this.updateMonthlySummary();
+        
+        // 부드러운 슬라이드 애니메이션
+        this.slideToMonth('next');
     }
 
-    // 스와이프 처리
-    handleSwipe() {
-        const deltaX = this.touchEndX - this.touchStartX;
+    // 달력 슬라이드 애니메이션
+    slideToMonth(direction) {
+        const calendarPages = document.getElementById('calendarPages');
         
-        if (Math.abs(deltaX) > this.minSwipeDistance) {
-            if (deltaX > 0) {
-                // 오른쪽으로 스와이프 (이전 달)
-                this.goToPreviousMonth();
-            } else {
-                // 왼쪽으로 스와이프 (다음 달)
-                this.goToNextMonth();
-            }
-        }
+        // 현재 위치에서 시작
+        const startTransform = -33.333;
+        const endTransform = direction === 'previous' ? 0 : -66.666;
+        
+        // 즉시 시작 위치로 이동 (애니메이션 없이)
+        calendarPages.style.transition = 'none';
+        calendarPages.style.transform = `translateX(${startTransform}%)`;
+        
+        // 다음 프레임에서 목표 위치로 슬라이드
+        requestAnimationFrame(() => {
+            calendarPages.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            calendarPages.style.transform = `translateX(${endTransform}%)`;
+            
+            // 애니메이션 완료 후 중앙으로 즉시 이동
+            setTimeout(() => {
+                calendarPages.style.transition = 'none';
+                calendarPages.style.transform = 'translateX(-33.333%)';
+                
+                // 기본 transition 복원
+                requestAnimationFrame(() => {
+                    calendarPages.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
+                });
+            }, 300);
+        });
     }
+
+
+
 
     // 숫자 포맷팅 설정
     setupNumberFormatting() {
@@ -235,8 +218,8 @@ class BusDriverApp {
             }
         });
 
-        // 업무 기록 모달의 숫자 입력 필드들 (편도수만)
-        const recordNumberFields = ['trips'];
+        // 업무 기록 모달의 숫자 입력 필드들 (편도수, 개별 편도금액)
+        const recordNumberFields = ['trips', 'individualTripRate'];
         
         recordNumberFields.forEach(fieldId => {
             const field = document.getElementById(fieldId);
@@ -272,23 +255,50 @@ class BusDriverApp {
         return parseInt(str.replace(/,/g, '')) || 0;
     }
 
-    // 달력 렌더링 - 해당 월의 날짜만 표시
+    // 달력 렌더링 - 이전 달, 현재 달, 다음 달을 함께 렌더링
     renderCalendar() {
+        // 현재 설정된 날짜 사용 (월 이동 시 변경된 날짜 유지)
+        
         const calendar = document.getElementById('calendar');
+        const prevCalendar = document.getElementById('prevCalendar');
+        const nextCalendar = document.getElementById('nextCalendar');
         const currentMonth = this.currentDate.getMonth();
         const currentYear = this.currentDate.getFullYear();
+        
+        console.log('렌더링 중인 달:', currentYear + '년 ' + (currentMonth + 1) + '월');
         
         // 월 표시 업데이트
         document.getElementById('currentMonth').textContent = 
             currentYear + '년 ' + (currentMonth + 1) + '월';
 
-        // 달력 완전 초기화
-        calendar.innerHTML = '';
-        calendar.style.gridTemplateColumns = 'repeat(7, 1fr)';
+        // 현재 달 달력 렌더링 (중앙에 표시될 달력)
+        this.renderCalendarForElement(calendar, currentYear, currentMonth);
+        
+        // 이전 달 달력 렌더링
+        const prevDate = new Date(currentYear, currentMonth - 1);
+        this.renderCalendarForElement(prevCalendar, prevDate.getFullYear(), prevDate.getMonth());
+        
+        // 다음 달 달력 렌더링
+        const nextDate = new Date(currentYear, currentMonth + 1);
+        this.renderCalendarForElement(nextCalendar, nextDate.getFullYear(), nextDate.getMonth());
+        
+        // 페이지 위치를 중앙으로 확실히 설정
+        const calendarPages = document.getElementById('calendarPages');
+        calendarPages.style.transition = 'none';
+        calendarPages.style.transform = 'translateX(-33.333%)';
+        setTimeout(() => {
+            calendarPages.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        }, 10);
+    }
+
+    // 특정 요소에 달력 렌더링
+    renderCalendarForElement(element, year, month) {
+        element.innerHTML = '';
+        element.style.gridTemplateColumns = 'repeat(7, 1fr)';
 
         // 해당 월의 첫 번째 날과 마지막 날
-        const firstDay = new Date(currentYear, currentMonth, 1);
-        const lastDay = new Date(currentYear, currentMonth + 1, 0);
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
         const daysInMonth = lastDay.getDate();
         const firstDayOfWeek = firstDay.getDay();
 
@@ -297,14 +307,14 @@ class BusDriverApp {
             const emptyDay = document.createElement('div');
             emptyDay.className = 'calendar-day empty-day';
             emptyDay.style.visibility = 'hidden';
-            calendar.appendChild(emptyDay);
+            element.appendChild(emptyDay);
         }
 
         // 해당 월의 날짜만 추가
         for (let day = 1; day <= daysInMonth; day++) {
-            const date = new Date(currentYear, currentMonth, day);
-            const dayElement = this.createDayElement(date, currentMonth);
-            calendar.appendChild(dayElement);
+            const date = new Date(year, month, day);
+            const dayElement = this.createDayElement(date, month, year);
+            element.appendChild(dayElement);
         }
 
         // 마지막 날 이후 빈 공간 추가 (해당 주를 완성하도록만)
@@ -316,12 +326,13 @@ class BusDriverApp {
             const emptyDay = document.createElement('div');
             emptyDay.className = 'calendar-day empty-day';
             emptyDay.style.visibility = 'hidden';
-            calendar.appendChild(emptyDay);
+            element.appendChild(emptyDay);
         }
     }
 
+
     // 날짜 요소 생성
-    createDayElement(date, currentMonth) {
+    createDayElement(date, currentMonth, year = null) {
         // 해당 월이 아닌 경우 빈 요소 반환
         if (date.getMonth() !== currentMonth) {
             const emptyElement = document.createElement('div');
@@ -335,7 +346,17 @@ class BusDriverApp {
         const isToday = this.isToday(date);
         const record = this.getRecord(date);
         const dayOfWeek = date.getDay(); // 0=일요일, 6=토요일
-        const holiday = this.isHoliday(date);
+        
+        // 해당 년도의 공휴일 데이터 사용
+        const targetYear = year || date.getFullYear();
+        const yearHolidays = this.getKoreanHolidays(targetYear);
+        const dateKey = this.getDateKey(date);
+        const holiday = yearHolidays[dateKey] || null;
+        
+        // 디버그 로그
+        if (holiday) {
+            console.log('공휴일 발견:', dateKey, holiday, '년도:', targetYear);
+        }
 
         if (isToday) {
             dayElement.classList.add('today');
@@ -356,6 +377,12 @@ class BusDriverApp {
         if (record) {
             if (record.status === 'work') {
                 dayElement.classList.add('work-day');
+                // 편도수에 따라 다른 클래스 추가
+                const trips = record.trips || 0;
+                if (trips > 0) {
+                    dayElement.classList.add(`work-day-trips-${trips}`);
+                    dayElement.setAttribute('data-trips', trips);
+                }
             } else if (record.status === 'off') {
                 dayElement.classList.add('off-day');
             }
@@ -373,16 +400,6 @@ class BusDriverApp {
             holidayInfo.className = 'holiday-info';
             holidayInfo.textContent = holiday;
             dayElement.appendChild(holidayInfo);
-        }
-
-        // 대체공휴일 표시
-        if (record && record.substituteHoliday) {
-            const substituteInfo = document.createElement('div');
-            substituteInfo.className = 'holiday-info';
-            substituteInfo.style.background = 'rgba(255, 152, 0, 0.1)';
-            substituteInfo.style.color = '#f57c00';
-            substituteInfo.textContent = '대체공휴일';
-            dayElement.appendChild(substituteInfo);
         }
 
         // 날짜 정보 (메모 포함)
@@ -430,6 +447,14 @@ class BusDriverApp {
         return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
     }
 
+    // 공휴일 확인
+    isHoliday(date) {
+        const dateKey = this.getDateKey(date);
+        const year = date.getFullYear();
+        const yearHolidays = this.getKoreanHolidays(year);
+        return yearHolidays[dateKey] || null;
+    }
+
     // 기록 모달 열기
     openRecordModal(date) {
         this.selectedDate = date;
@@ -446,8 +471,8 @@ class BusDriverApp {
             
             if (record.status === 'work') {
                 document.getElementById('trips').value = record.trips || '';
+                document.getElementById('individualTripRate').value = record.individualTripRate ? record.individualTripRate.toLocaleString() : '';
                 document.getElementById('memo').value = record.memo || '';
-                document.getElementById('substituteHoliday').checked = record.substituteHoliday || false;
             } else if (record.status === 'off') {
                 document.getElementById('memo').value = record.memo || '';
             }
@@ -462,37 +487,24 @@ class BusDriverApp {
         const existingNotices = document.querySelectorAll('.holiday-notice');
         existingNotices.forEach(notice => notice.remove());
 
-        // 공휴일인 경우 안내 메시지 표시
-        if (holiday) {
+        // 공휴일, 토요일, 일요일인 경우 안내 메시지 표시
+        const dayOfWeek = date.getDay(); // 0=일요일, 6=토요일
+        if (holiday || dayOfWeek === 0 || dayOfWeek === 6) {
             const holidayNotice = document.createElement('div');
             holidayNotice.className = 'holiday-notice';
-            holidayNotice.innerHTML = '<i class="fas fa-info-circle"></i> ' + holiday + ' - 근무 시 휴일/공휴일 급여(편도수×휴일급여)와 점심비가 적용됩니다';
-            document.querySelector('.modal-body').insertBefore(holidayNotice, document.querySelector('.form-group'));
-        }
-
-        // 대체공휴일 체크박스 상태에 따른 안내 메시지
-        const substituteCheckbox = document.getElementById('substituteHoliday');
-        const updateSubstituteNotice = () => {
-            const existingNotice = document.querySelector('.substitute-notice');
-            if (existingNotice) {
-                existingNotice.remove();
+            
+            let noticeText = '';
+            if (holiday) {
+                noticeText = holiday + ' - 근무 시 휴일/공휴일 편도금액이 적용됩니다';
+            } else if (dayOfWeek === 0) {
+                noticeText = '일요일 - 근무 시 휴일/공휴일 편도금액이 적용됩니다';
+            } else if (dayOfWeek === 6) {
+                noticeText = '토요일 - 근무 시 휴일/공휴일 편도금액이 적용됩니다';
             }
             
-            if (substituteCheckbox.checked) {
-                const substituteNotice = document.createElement('div');
-                substituteNotice.className = 'holiday-notice substitute-notice';
-                substituteNotice.style.background = '#fff3e0';
-                substituteNotice.style.borderColor = '#ff9800';
-                substituteNotice.style.color = '#e65100';
-                substituteNotice.innerHTML = '<i class="fas fa-calendar-check"></i> 대체공휴일로 설정됨 - 휴일/공휴일 급여(편도수×휴일급여)와 점심비가 적용됩니다';
-                document.querySelector('.modal-body').insertBefore(substituteNotice, document.querySelector('.form-group'));
-            }
-        };
-
-        substituteCheckbox.addEventListener('change', updateSubstituteNotice);
-        
-        // 초기 상태 확인
-        updateSubstituteNotice();
+            holidayNotice.innerHTML = '<i class="fas fa-info-circle"></i> ' + noticeText;
+            document.querySelector('.modal-body').insertBefore(holidayNotice, document.querySelector('.form-group'));
+        }
 
         document.getElementById('modal').classList.add('show');
     }
@@ -501,6 +513,7 @@ class BusDriverApp {
     toggleWorkFields(status) {
         const workFields = document.getElementById('workFields');
         const offFields = document.getElementById('offFields');
+        const individualTripRateGroup = document.getElementById('individualTripRateGroup');
         
         // 모든 필드 숨기기
         workFields.style.display = 'none';
@@ -508,6 +521,12 @@ class BusDriverApp {
         
         if (status === 'work') {
             workFields.style.display = 'block';
+            // 편도급여가 고정되어 있으면 개별 편도금액 입력 필드 숨기기
+            if (this.settings.useTripRate) {
+                individualTripRateGroup.style.display = 'none';
+            } else {
+                individualTripRateGroup.style.display = 'block';
+            }
         } else if (status === 'off') {
             offFields.style.display = 'block';
         }
@@ -516,8 +535,8 @@ class BusDriverApp {
     // 폼 초기화
     clearForm() {
         document.getElementById('trips').value = '';
+        document.getElementById('individualTripRate').value = '';
         document.getElementById('memo').value = '';
-        document.getElementById('substituteHoliday').checked = false;
     }
 
     // 기록 저장
@@ -534,20 +553,27 @@ class BusDriverApp {
         };
 
         if (status === 'work') {
-            record.trips = this.parseFormattedNumber(document.getElementById('trips').value);
+            record.trips = parseInt(document.getElementById('trips').value) || 0;
             record.memo = document.getElementById('memo').value;
-            record.substituteHoliday = document.getElementById('substituteHoliday').checked;
             
             const dayOfWeek = this.selectedDate.getDay(); // 0=일요일, 6=토요일
             
-            // 대체공휴일로 설정된 경우, 공휴일, 토요일, 일요일인 경우 휴일 급여 적용
-            if (record.substituteHoliday || holiday || dayOfWeek === 0 || dayOfWeek === 6) {
-                // 휴일/공휴일 급여는 편도수에 비례하여 계산
-                record.holidayPay = (record.trips || 0) * (this.settings.defaultHolidayPay || 0);
-            }
-            
-            // 근무 시 항상 점심비 적용 (휴일/공휴일 상관없이)
+            // 모든 근무일에 점심비 적용
             record.lunchCost = this.settings.defaultLunchCost || 0;
+            
+            // 토요일(6), 일요일(0), 공휴일인 경우 휴일/공휴일 편도금액 적용
+            if (dayOfWeek === 0 || dayOfWeek === 6 || holiday) {
+                record.holidayTripRate = this.settings.defaultHolidayPay || 0;
+            } else {
+                // 평일 근무 시 체크박스 상태에 따라 급여 계산 방식 결정
+                if (this.settings.useTripRate) {
+                    // 설정의 편도당 급여 사용
+                    record.tripRate = this.settings.tripRate || 0;
+                } else {
+                    // 개별 편도당 급여 사용
+                    record.individualTripRate = this.parseFormattedNumber(document.getElementById('individualTripRate').value);
+                }
+            }
         } else if (status === 'off') {
             record.memo = document.getElementById('memo').value;
         }
@@ -575,6 +601,7 @@ class BusDriverApp {
 
     // 설정 모달 열기
     openSettingsModal() {
+        document.getElementById('useTripRate').checked = this.settings.useTripRate !== false;
         document.getElementById('tripRate').value = (this.settings.tripRate || 0).toLocaleString();
         document.getElementById('defaultLunchCost').value = (this.settings.defaultLunchCost || 0).toLocaleString();
         document.getElementById('defaultHolidayPay').value = (this.settings.defaultHolidayPay || 0).toLocaleString();
@@ -586,6 +613,7 @@ class BusDriverApp {
 
     // 설정 저장
     saveSettings() {
+        this.settings.useTripRate = document.getElementById('useTripRate').checked;
         this.settings.tripRate = this.parseFormattedNumber(document.getElementById('tripRate').value);
         this.settings.defaultLunchCost = this.parseFormattedNumber(document.getElementById('defaultLunchCost').value);
         this.settings.defaultHolidayPay = this.parseFormattedNumber(document.getElementById('defaultHolidayPay').value);
@@ -623,13 +651,19 @@ class BusDriverApp {
                     totalTrips += record.trips || 0;
                     lunchTotal += record.lunchCost || 0;
                     
+                    // 디버그 로그: 각 근무일의 점심비 확인
+                    console.log(`${day}일 근무 - 점심비: ${record.lunchCost || 0}원, 공휴일: ${holiday || '없음'}`);
+                    
                     const dayOfWeek = date.getDay(); // 0=일요일, 6=토요일
                     
-                    // 대체공휴일로 설정된 경우, 공휴일, 토요일, 일요일 근무인 경우 휴일 급여, 아니면 일반 급여
-                    if (record.substituteHoliday || holiday || dayOfWeek === 0 || dayOfWeek === 6) {
-                        expectedSalary += record.holidayPay || 0;
+                    // 토요일(6), 일요일(0), 공휴일 근무인 경우 휴일/공휴일 편도금액 적용
+                    if (dayOfWeek === 0 || dayOfWeek === 6 || holiday) {
+                        const holidayTripRate = record.holidayTripRate || this.settings.defaultHolidayPay || 0;
+                        expectedSalary += (record.trips || 0) * holidayTripRate;
                     } else {
-                        expectedSalary += (record.trips || 0) * (this.settings.tripRate || 0);
+                        // 평일 근무인 경우 개별 편도금액이 있으면 사용, 없으면 설정의 편도당 급여 사용
+                        const tripRate = record.individualTripRate || this.settings.tripRate || 0;
+                        expectedSalary += (record.trips || 0) * tripRate;
                     }
                 }
             }
@@ -641,7 +675,7 @@ class BusDriverApp {
             fullAttendanceBonus = this.settings.baseSalary || 0;
             expectedSalary += fullAttendanceBonus;
         } else if (workDays > 0 && this.settings.fullAttendanceDays > 0) {
-            // 만근 실패 시 말일 입력 확인 후 부분 지급
+            // 만근 실패 시 말일 입력 확인 후 일당 계산으로 부분 지급
             const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
             const lastDayRecord = this.getRecord(new Date(currentYear, currentMonth, lastDayOfMonth));
             
@@ -653,15 +687,24 @@ class BusDriverApp {
                 baseSalary: this.settings.baseSalary
             });
             
-            if (lastDayRecord && lastDayRecord.status === 'work' && (lastDayRecord.trips > 0 || lastDayRecord.memo)) {
-                // 말일에 근무 기록이 있고 편도수나 메모 중 하나라도 있으면 부분 지급
-                const partialBonus = Math.floor((this.settings.baseSalary || 0) * (workDays / this.settings.fullAttendanceDays));
+            // 말일에 아무 입력만 되어도 기본급 계산 (근무여부 관계없이)
+            if (lastDayRecord) {
+                // 일당 계산: (기본급 ÷ 만근일수) × 실제 근무일수
+                const dailyRate = (this.settings.baseSalary || 0) / this.settings.fullAttendanceDays;
+                const partialBonus = Math.floor(dailyRate * workDays);
                 fullAttendanceBonus = partialBonus;
                 expectedSalary += partialBonus;
-                console.log('부분 지급 계산:', partialBonus);
+                console.log('일당 계산 부분 지급:', {
+                    dailyRate: dailyRate,
+                    workDays: workDays,
+                    partialBonus: partialBonus
+                });
             }
         }
 
+        // 디버그 로그: 총 점심비 확인
+        console.log(`총 점심비 계산: ${workDays}일 근무 × ${this.settings.defaultLunchCost || 0}원 = ${lunchTotal}원`);
+        
         document.getElementById('workDays').textContent = workDays + '일';
         document.getElementById('totalTrips').textContent = totalTrips + '회';
         document.getElementById('lunchTotal').textContent = lunchTotal.toLocaleString() + '원';
@@ -691,7 +734,8 @@ class BusDriverApp {
             defaultLunchCost: 0,
             defaultHolidayPay: 0,
             baseSalary: 0,
-            fullAttendanceDays: 0
+            fullAttendanceDays: 0,
+            useTripRate: true
         };
     }
 
@@ -703,66 +747,10 @@ class BusDriverApp {
     saveSettingsToStorage() {
         localStorage.setItem('busDriverSettings', JSON.stringify(this.settings));
     }
-
-    // 데이터 내보내기
-    exportData() {
-        const data = {
-            records: this.records,
-            settings: this.settings,
-            exportDate: new Date().toISOString(),
-            version: '1.0'
-        };
-        
-        const dataStr = JSON.stringify(data, null, 2);
-        const dataBlob = new Blob([dataStr], {type: 'application/json'});
-        
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(dataBlob);
-        link.download = `버스기사데이터_${new Date().toISOString().split('T')[0]}.json`;
-        link.click();
-        
-        alert('데이터가 다운로드되었습니다. 이 파일을 안전한 곳에 보관하세요.');
-    }
-
-    // 데이터 가져오기
-    importData(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            try {
-                const data = JSON.parse(e.target.result);
-                
-                if (!data.records || !data.settings) {
-                    throw new Error('잘못된 데이터 형식입니다.');
-                }
-                
-                if (confirm('기존 데이터를 모두 덮어쓰시겠습니까?')) {
-                    this.records = data.records;
-                    this.settings = data.settings;
-                    
-                    this.saveRecords();
-                    this.saveSettingsToStorage();
-                    
-                    this.renderCalendar();
-                    this.updateMonthlySummary();
-                    
-                    alert('데이터가 성공적으로 복원되었습니다.');
-                }
-            } catch (error) {
-                alert('데이터 가져오기 실패: ' + error.message);
-            }
-        };
-        
-        reader.readAsText(file);
-        
-        // 파일 입력 초기화
-        event.target.value = '';
-    }
 }
 
 // 앱 초기화
 document.addEventListener('DOMContentLoaded', () => {
     new BusDriverApp();
 });
+

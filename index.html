@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>버스기사 업무 기록 앱</title>
+    <title>운행기록</title>
     
     <!-- PWA 설정 -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#667eea">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="버스기사 기록">
+    <meta name="apple-mobile-web-app-title" content="운행기록">
     <link rel="apple-touch-icon" href="icon-180.png">
     <link rel="stylesheet" href="styles_with_off_day.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -37,7 +37,7 @@
     <div class="app-container">
         <!-- 헤더 -->
         <header class="header">
-            <h1><i class="fas fa-bus"></i> 버스기사 업무 기록</h1>
+            <h1><i class="fas fa-bus"></i> 운행기록</h1>
             <div class="header-controls">
                 <button id="settingsBtn" class="btn btn-secondary">
                     <i class="fas fa-cog"></i> 설정
@@ -59,17 +59,51 @@
             </div>
 
             <!-- 달력 -->
-            <div class="calendar-container">
-                <div class="calendar-header">
-                    <div class="day-header sunday">일</div>
-                    <div class="day-header">월</div>
-                    <div class="day-header">화</div>
-                    <div class="day-header">수</div>
-                    <div class="day-header">목</div>
-                    <div class="day-header">금</div>
-                    <div class="day-header saturday">토</div>
+            <div class="calendar-wrapper">
+                <div id="calendarPages" class="calendar-pages">
+                    <div class="calendar-page">
+                        <div id="prevCalendarContainer" class="calendar-container">
+                            <div class="calendar-header">
+                                <div class="day-header sunday">일</div>
+                                <div class="day-header">월</div>
+                                <div class="day-header">화</div>
+                                <div class="day-header">수</div>
+                                <div class="day-header">목</div>
+                                <div class="day-header">금</div>
+                                <div class="day-header saturday">토</div>
+                            </div>
+                            <div id="prevCalendar" class="calendar"></div>
+                        </div>
+                    </div>
+                    <div class="calendar-page">
+                        <div id="currentCalendarContainer" class="calendar-container">
+                            <div class="calendar-header">
+                                <div class="day-header sunday">일</div>
+                                <div class="day-header">월</div>
+                                <div class="day-header">화</div>
+                                <div class="day-header">수</div>
+                                <div class="day-header">목</div>
+                                <div class="day-header">금</div>
+                                <div class="day-header saturday">토</div>
+                            </div>
+                            <div id="calendar" class="calendar"></div>
+                        </div>
+                    </div>
+                    <div class="calendar-page">
+                        <div id="nextCalendarContainer" class="calendar-container">
+                            <div class="calendar-header">
+                                <div class="day-header sunday">일</div>
+                                <div class="day-header">월</div>
+                                <div class="day-header">화</div>
+                                <div class="day-header">수</div>
+                                <div class="day-header">목</div>
+                                <div class="day-header">금</div>
+                                <div class="day-header saturday">토</div>
+                            </div>
+                            <div id="nextCalendar" class="calendar"></div>
+                        </div>
+                    </div>
                 </div>
-                <div id="calendar" class="calendar"></div>
             </div>
 
             <!-- 월별 요약 -->
@@ -125,11 +159,9 @@
                             <label>편도수</label>
                             <input type="text" id="trips" placeholder="편도수 입력 (예: 5)">
                         </div>
-                        <div class="form-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="substituteHoliday">
-                                <span>대체공휴일로 설정</span>
-                            </label>
+                        <div class="form-group" id="individualTripRateGroup" style="display: none;">
+                            <label>편도당 급여</label>
+                            <input type="text" id="individualTripRate" placeholder="편도당 급여 (예: 15,000)">
                         </div>
                         <div class="form-group">
                             <label>메모</label>
@@ -162,7 +194,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>편도당 급여</label>
+                        <label class="checkbox-tight">편도금액고정<input type="checkbox" id="useTripRate" checked></label>
+                        <div style="color: #666; font-size: 0.9rem; margin-top: 4px;">(고정시 편도금액 수기입력불가)</div>
                         <input type="text" id="tripRate" placeholder="편도당 급여 (예: 15,000)">
                     </div>
                     <div class="form-group">
@@ -170,28 +203,16 @@
                         <input type="text" id="defaultLunchCost" placeholder="기본 점심비 (예: 8,000)">
                     </div>
                     <div class="form-group">
-                        <label>휴일/공휴일 급여</label>
-                        <input type="text" id="defaultHolidayPay" placeholder="휴일 급여 (예: 50,000)">
+                        <label>휴일/공휴일 편도금액</label>
+                        <input type="text" id="defaultHolidayPay" placeholder="휴일 편도금액 (예: 50,000)">
                     </div>
                     <div class="form-group">
-                        <label>기본급 (만근보너스)</label>
+                        <label>기본급</label>
                         <input type="text" id="baseSalary" placeholder="기본급 (예: 200,000)">
                     </div>
                     <div class="form-group">
                         <label>만근일 기준</label>
                         <input type="number" id="fullAttendanceDays" placeholder="만근일 기준 (예: 25일)" min="0">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>데이터 관리</label>
-                        <div class="data-management">
-                            <button id="exportData" class="btn btn-secondary">
-                                <i class="fas fa-download"></i> 데이터 내보내기
-                            </button>
-                            <button id="importData" class="btn btn-secondary">
-                                <i class="fas fa-upload"></i> 데이터 가져오기
-                            </button>
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -200,9 +221,6 @@
             </div>
         </div>
     </div>
-
-    <!-- 파일 입력 (숨김) -->
-    <input type="file" id="fileInput" accept=".json" style="display: none;">
 
     <script src="script_holiday_auto.js"></script>
     

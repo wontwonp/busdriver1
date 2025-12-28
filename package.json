@@ -1,0 +1,17 @@
+{
+  "name": "busdriver",
+  "version": "1.0.0",
+  "description": "버스기사의 일일 업무를 기록하고 월급을 계산할 수 있는 PWA 앱입니다.",
+  "main": "script_holiday_auto.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/ios": "^7.4.3"
+  }
+}
