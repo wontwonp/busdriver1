@@ -1,4 +1,4 @@
-﻿// 앱 상태 관리
+// 앱 상태 관리
 class BusDriverApp {
     constructor() {
         // 항상 오늘 날짜로 설정
@@ -472,6 +472,7 @@ class BusDriverApp {
             if (record.status === 'work') {
                 document.getElementById('trips').value = record.trips || '';
                 document.getElementById('individualTripRate').value = record.individualTripRate ? record.individualTripRate.toLocaleString() : '';
+                document.getElementById('isSubstituteHoliday').checked = !!record.isSubstituteHoliday;
                 document.getElementById('memo').value = record.memo || '';
             } else if (record.status === 'off') {
                 document.getElementById('memo').value = record.memo || '';
@@ -536,6 +537,7 @@ class BusDriverApp {
     clearForm() {
         document.getElementById('trips').value = '';
         document.getElementById('individualTripRate').value = '';
+        document.getElementById('isSubstituteHoliday').checked = false;
         document.getElementById('memo').value = '';
     }
 
@@ -557,12 +559,16 @@ class BusDriverApp {
             record.memo = document.getElementById('memo').value;
             
             const dayOfWeek = this.selectedDate.getDay(); // 0=일요일, 6=토요일
+            const isSubstituteHoliday = document.getElementById('isSubstituteHoliday').checked;
             
             // 모든 근무일에 점심비 적용
             record.lunchCost = this.settings.defaultLunchCost || 0;
             
-            // 토요일(6), 일요일(0), 공휴일인 경우 휴일/공휴일 편도금액 적용
-            if (dayOfWeek === 0 || dayOfWeek === 6 || holiday) {
+            // 대체공휴일로 지정한 경우 저장
+            record.isSubstituteHoliday = isSubstituteHoliday;
+            
+            // 토요일(6), 일요일(0), 공휴일, 대체공휴일 지정인 경우 휴일/공휴일 편도금액 적용
+            if (dayOfWeek === 0 || dayOfWeek === 6 || holiday || isSubstituteHoliday) {
                 record.holidayTripRate = this.settings.defaultHolidayPay || 0;
             } else {
                 // 평일 근무 시 체크박스 상태에 따라 급여 계산 방식 결정
@@ -656,8 +662,8 @@ class BusDriverApp {
                     
                     const dayOfWeek = date.getDay(); // 0=일요일, 6=토요일
                     
-                    // 토요일(6), 일요일(0), 공휴일 근무인 경우 휴일/공휴일 편도금액 적용
-                    if (dayOfWeek === 0 || dayOfWeek === 6 || holiday) {
+                    // 토요일(6), 일요일(0), 공휴일, 대체공휴일 지정 근무인 경우 휴일/공휴일 편도금액 적용
+                    if (dayOfWeek === 0 || dayOfWeek === 6 || holiday || record.isSubstituteHoliday) {
                         const holidayTripRate = record.holidayTripRate || this.settings.defaultHolidayPay || 0;
                         expectedSalary += (record.trips || 0) * holidayTripRate;
                     } else {
